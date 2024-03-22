@@ -1,12 +1,25 @@
 <template>
-  <div class="about">
-    <h1>这里是地图</h1>
+  <div class="mapContainer">
+    <MapWidget :mapOptions="mapOptions" :mapLayerSettting="mapSetting"></MapWidget>
   </div>
 </template>
 
-<style>
-.about {
-  display: flex;
-  align-items: center;
+<script lang="ts" setup>
+
+import { type LngLatLike } from 'mapbox-gl'
+import MapWidget from '@/gis/widget/MapWidget/index.vue'
+import mapSetting from './mapSetting'
+
+const mapOptions = {
+  id: 'themeMap',
+  container: '',
+  center: [118.16333303406572, 31.108394692222518] as LngLatLike, // 芜湖
+  zoom: 8.7,
+  maxZoom: 20
 }
+
+</script>
+
+<style>
+@import './index.css';
 </style>

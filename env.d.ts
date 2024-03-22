@@ -4,3 +4,8 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+// declare namespace NodeJS {
+//   type Timer = any
+// }
+declare module '@turf/turf'
