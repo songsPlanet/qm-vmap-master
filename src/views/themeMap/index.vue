@@ -1,14 +1,16 @@
 <template>
   <div class="mapContainer">
-    <MapWidget :mapOptions="mapOptions" :mapLayerSettting="mapSetting"></MapWidget>
+    <MapWidget :mapOptions="mapOptions" :mapLayerSettting="mapSetting">
+      <ControlPanel></ControlPanel>
+    </MapWidget>
   </div>
 </template>
 
 <script lang="ts" setup>
-
 import { type LngLatLike } from 'mapbox-gl'
 import MapWidget from '@/gis/widget/MapWidget/index.vue'
 import mapSetting from './mapSetting'
+import ControlPanel from './components/ControlPanel.vue'
 
 const mapOptions = {
   id: 'themeMap',
@@ -17,7 +19,6 @@ const mapOptions = {
   zoom: 8.7,
   maxZoom: 20
 }
-
 </script>
 
 <style>

@@ -1,8 +1,9 @@
 <template>
   <div ref="mapDom" class="map-wrapper" id="map-wrapper">
-    <!-- {mapInit && contextValue &&
+    <!-- {mapInit && MapContext &&
     <div>{children}</div>
     } -->
+    <slot v-if="mapInit && MapContext"></slot>
   </div>
 </template>
 
@@ -13,7 +14,7 @@ import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import { type MapboxOptions } from 'mapbox-gl'
 import { debounce } from '@/gis/utils'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { cloneDeep } from 'lodash'
 
 interface TMapProps {
@@ -25,13 +26,14 @@ interface TMapProps {
   onMapLoad?: (map: MapWrapper) => void
   className?: string
 }
-
 const props = defineProps<TMapProps>()
 const mapDom = ref<HTMLDivElement | null>(null)
 const mapInit = ref<boolean>(false)
+const map = ref<MapWrapper | null>(null)
 
 onMounted(() => {
   const map = new MapWrapper({
+    //  map.value = new MapWrapper({
     pitch: 0,
     bearing: 0,
     attributionControl: false,
@@ -47,6 +49,7 @@ onMounted(() => {
       layers: []
     }
   })
+
   const loadLayers = () => {
     map.load(cloneDeep(props.mapLayerSettting))
     mapInit.value = true
@@ -55,6 +58,7 @@ onMounted(() => {
       MapContext.map = map
     }
   }
+
   map.on('load', loadLayers)
   map.on('click', (e) => {
     console.log(e.lngLat)
@@ -65,9 +69,10 @@ onMounted(() => {
   }, 10)
   const ro = new ResizeObserver(resizeMap)
   ro.observe(mapDom.value as Element)
-  return () => {
-    map.off('load', loadLayers)
-  }
+
+  // return () => {
+  //   map.off('load', loadLayers)
+  // }
 })
 </script>
 
