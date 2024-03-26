@@ -21,6 +21,7 @@ const mapOptions = {
 }
 </script>
 
-<style>
-@import './index.css';
+<style lang="less">
+/* @import './index.css'; */
+@import './index.less';
 </style>

@@ -9,7 +9,6 @@ import { onMounted } from 'vue'
 
 // const map = MapContext.map
 const { map } = useMap()
-console.log(map)
 const navCtrl = new NavigationControl()
 const fullCtrl = new FullscreenControl()
 

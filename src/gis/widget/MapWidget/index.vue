@@ -22,18 +22,25 @@ interface TMapProps {
     id: string
   }
   mapLayerSettting: TMapLayerSettting
-  // children?: React.ReactNode;
   onMapLoad?: (map: MapWrapper) => void
   className?: string
 }
 const props = defineProps<TMapProps>()
 const mapDom = ref<HTMLDivElement | null>(null)
 const mapInit = ref<boolean>(false)
-const map = ref<MapWrapper | null>(null)
+let map: any
+
+function loadLayers() {
+  map.load(cloneDeep(props.mapLayerSettting))
+  mapInit.value = true
+  props.onMapLoad?.(map)
+  if (MapContext) {
+    MapContext.map = map
+  }
+}
 
 onMounted(() => {
-  const map = new MapWrapper({
-    //  map.value = new MapWrapper({
+  map = new MapWrapper({
     pitch: 0,
     bearing: 0,
     attributionControl: false,
@@ -50,32 +57,25 @@ onMounted(() => {
     }
   })
 
-  const loadLayers = () => {
-    map.load(cloneDeep(props.mapLayerSettting))
-    mapInit.value = true
-    props.onMapLoad?.(map)
-    if (MapContext) {
-      MapContext.map = map
-    }
-  }
-
   map.on('load', loadLayers)
-  map.on('click', (e) => {
+  map.on('load', loadLayers)
+  map.on('click', (e: any) => {
     console.log(e.lngLat)
     console.log(map.getCenter(), map.getZoom(), map.getBounds())
   })
   const resizeMap = debounce(() => {
     map.resize()
   }, 10)
+
   const ro = new ResizeObserver(resizeMap)
   ro.observe(mapDom.value as Element)
+})
 
-  // return () => {
-  //   map.off('load', loadLayers)
-  // }
+onUnmounted(() => {
+  map.off('load', loadLayers)
 })
 </script>
 
-<style scoped>
-@import './index.css';
+<style scoped lang="less">
+@import './index.less';
 </style>

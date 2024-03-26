@@ -55,6 +55,6 @@ const selectedKeys = ref<string[]>(['1'])
 const collapsed = ref<boolean>(false)
 </script>
 
-<style scoped>
-@import './index.css';
+<style scoped lang="less">
+@import './index.less';
 </style>
