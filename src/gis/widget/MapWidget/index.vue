@@ -1,8 +1,5 @@
 <template>
   <div ref="mapDom" class="map-wrapper" id="map-wrapper">
-    <!-- {mapInit && MapContext &&
-    <div>{children}</div>
-    } -->
     <slot v-if="mapInit && MapContext"></slot>
   </div>
 </template>
@@ -11,10 +8,10 @@
 import { type TMapLayerSettting } from '@/gis/mapboxgl/typings/TLayerOptions'
 import { MapContext } from '@/gis/context/mapContext'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { type MapboxOptions } from 'mapbox-gl'
 import { debounce } from '@/gis/utils'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { onMounted, onUnmounted, ref } from 'vue'
 import { cloneDeep } from 'lodash'
 
 interface TMapProps {
@@ -25,15 +22,15 @@ interface TMapProps {
   onMapLoad?: (map: MapWrapper) => void
   className?: string
 }
-const props = defineProps<TMapProps>()
+const { mapOptions, mapLayerSettting, onMapLoad, className } = defineProps<TMapProps>()
 const mapDom = ref<HTMLDivElement | null>(null)
 const mapInit = ref<boolean>(false)
 let map: any
 
-function loadLayers() {
-  map.load(cloneDeep(props.mapLayerSettting))
+const loadLayers = () => {
+  map.load(cloneDeep(mapLayerSettting))
   mapInit.value = true
-  props.onMapLoad?.(map)
+  onMapLoad?.(map)
   if (MapContext) {
     MapContext.map = map
   }
@@ -47,7 +44,7 @@ onMounted(() => {
     renderWorldCopies: false,
     trackResize: true,
     preserveDrawingBuffer: true,
-    ...props.mapOptions,
+    ...mapOptions,
     container: mapDom.value as HTMLElement,
     style: {
       version: 8,
