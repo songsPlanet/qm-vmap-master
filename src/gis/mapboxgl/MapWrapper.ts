@@ -3,7 +3,7 @@ import { transTreeToArr } from '../utils';
 import LayerGroupWrapper from './layer/LayerGroupWrapper';
 import LayerWrapper from './layer/LayerWrapper';
 import { MapEvent } from './typings/TEvent';
-import { type TMapLayerSettting } from './typings/TLayerOptions';
+import { type TMapLayerSetting } from './typings/TLayerOptions';
 import { type TMapOptions } from './typings/TMapOptions';
 /**
  * 地图扩展类
@@ -25,9 +25,9 @@ class MapWrapper extends Map {
   }
 
   /**
-   * 获取MapLayerSettting
+   * 获取MapLayerSetting
    */
-  private _mapLayerSetting: TMapLayerSettting;
+  private _mapLayerSetting: TMapLayerSetting;
 
   public get mapLayerSetting() {
     return this._mapLayerSetting;
@@ -90,9 +90,9 @@ class MapWrapper extends Map {
     this.fire(MapEvent.MAPLAYERCHANGED, { map: this, layer: layer });
   }
 
-  load(mapLayerSettting: TMapLayerSettting) {
-    this._mapLayerSetting = mapLayerSettting;
-    mapLayerSettting.forEach((layerOption) => {
+  load(mapLayerSetting: TMapLayerSetting) {
+    this._mapLayerSetting = mapLayerSetting;
+    mapLayerSetting.forEach((layerOption) => {
       let lyrWrapper;
       if ('layers' in layerOption) {
         lyrWrapper = new LayerGroupWrapper(layerOption);

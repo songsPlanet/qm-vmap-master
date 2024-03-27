@@ -34,4 +34,4 @@ export interface TLayerGroupOptions {
 
 export type TLayerSetingOptions = TLayerGroupOptions | TLayerOptions;
 
-export type TMapLayerSettting = Array<TLayerSetingOptions>;
+export type TMapLayerSetting = Array<TLayerSetingOptions>;

@@ -5,7 +5,7 @@ export {
   type TLayerOptions,
   type TLayerGroupOptions,
   type TLayerSetingOptions,
-  type TMapLayerSettting,
+  type TMapLayerSetting,
 } from './TLayerOptions';
 export { type TMapOptions } from './TMapOptions';
 export { type IGeoJSONResolver, type IDynamicResolver, type IWebSocketResolver, type IDataResolver } from './TResolver';

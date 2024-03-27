@@ -1,4 +1,4 @@
-import { type TMapLayerSettting } from '@/gis/mapboxgl/typings'
+import { type TMapLayerSetting } from '@/gis/mapboxgl/typings'
 import { basemap } from '@/views/mapSetting/basemap'
-const mapSetting: TMapLayerSettting = [basemap]
+const mapSetting: TMapLayerSetting = [basemap]
 export default mapSetting

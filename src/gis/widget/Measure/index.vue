@@ -1,6 +1,6 @@
 <template>
   <BaseWidget
-    :name="name"
+    :name="'测量工具'"
     :width="130"
     :height="110"
     :position="props"
@@ -25,7 +25,6 @@ import { Space, Button } from 'ant-design-vue'
 import { ref } from 'vue'
 
 const { map } = useMap()
-const name = ref('测量工具')
 const props = defineProps<TWidgetPosition>()
 
 const polylineMeasureHandle = () => {

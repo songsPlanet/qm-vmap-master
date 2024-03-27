@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts" setup>
-import { type TMapLayerSettting } from '@/gis/mapboxgl/typings/TLayerOptions'
+import { type TMapLayerSetting } from '@/gis/mapboxgl/typings/TLayerOptions'
+import { onMounted, onUnmounted, onUpdated, ref } from 'vue'
 import { MapContext } from '@/gis/context/mapContext'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
-import { onMounted, onUnmounted, ref } from 'vue'
 import { type MapboxOptions } from 'mapbox-gl'
 import { debounce } from '@/gis/utils'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -18,17 +18,17 @@ interface TMapProps {
   mapOptions: MapboxOptions & {
     id: string
   }
-  mapLayerSettting: TMapLayerSettting
+  mapLayerSetting: TMapLayerSetting
   onMapLoad?: (map: MapWrapper) => void
   className?: string
 }
-const { mapOptions, mapLayerSettting, onMapLoad, className } = defineProps<TMapProps>()
+const { mapOptions, mapLayerSetting, onMapLoad, className } = defineProps<TMapProps>()
 const mapDom = ref<HTMLDivElement | null>(null)
 const mapInit = ref<boolean>(false)
 let map: any
 
 const loadLayers = () => {
-  map.load(cloneDeep(mapLayerSettting))
+  map.load(cloneDeep(mapLayerSetting))
   mapInit.value = true
   onMapLoad?.(map)
   if (MapContext) {

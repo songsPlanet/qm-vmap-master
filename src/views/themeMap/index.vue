@@ -1,6 +1,6 @@
 <template>
   <div class="mapContainer">
-    <MapWidget :mapOptions="mapOptions" :mapLayerSettting="mapSetting">
+    <MapWidget :mapOptions="mapOptions" :mapLayerSetting="mapSetting">
       <ControlPanel></ControlPanel>
     </MapWidget>
   </div>
