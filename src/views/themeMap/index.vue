@@ -15,10 +15,13 @@ import ControlPanel from './components/ControlPanel.vue'
 const mapOptions = {
   id: 'themeMap',
   container: '',
-  center: [118.16333303406572, 31.108394692222518] as LngLatLike, // 芜湖
+  // center: [118.16333303406572, 31.108394692222518] as LngLatLike, // 芜湖
+  center: [115.39047951086354, 33.2714096725866] as LngLatLike, // 界首市
+
   zoom: 8.7,
   maxZoom: 20
 }
+
 </script>
 
 <style lang="less">

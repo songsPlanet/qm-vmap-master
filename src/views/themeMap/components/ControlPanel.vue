@@ -1,6 +1,7 @@
 <template>
-  <Measure :position="position.measure"></Measure>
   <Swipe :position="position.swipe"></Swipe>
+  <Legend :position="position.legend"></Legend>
+  <Measure :position="position.measure"></Measure>
   <LayerList :position="position.layerList"></LayerList>
 </template>
 
@@ -9,6 +10,7 @@ import { MapContext, useMap } from '@/gis/context/mapContext'
 import { FullscreenControl, NavigationControl } from 'mapbox-gl'
 import { onMounted, onUnmounted, ref } from 'vue'
 import Measure from '@/gis/widget/Measure/index.vue'
+import Legend from '@/gis/widget/Legend/index.vue'
 import Swipe from '@/gis/widget/Swipe/index.vue'
 import LayerList from '@/gis/widget/LayerList/index.vue'
 // const map = MapContext.map
@@ -22,7 +24,8 @@ const position = ref({
     top: '185px',
     right: '10px'
   },
-  layerList: { top: '10px', left: '10px' }
+  layerList: { top: '10px', left: '10px' },
+  legend: { bottom: '10px', left: '10px' }
 })
 const navCtrl = new NavigationControl()
 const fullCtrl = new FullscreenControl()
