@@ -68,7 +68,10 @@ const loop = (data: Array<LayerWrapper | LayerGroupWrapper>, keys: string[]) => 
 const getOldHalfKeys = (oldKeys: string[]) => {
   const list: string[] = []
   data.value.map((d: any) => {
-    list.push(d.key)
+    // console.log('ddddd', d)
+    if (d.children) {
+      list.push(d.key)
+    }
   })
   return oldKeys.filter((x: any) => !list.includes(x))
 }

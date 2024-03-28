@@ -7,8 +7,7 @@
     :height="baseHeight"
   >
     <div class="mapboxgl-legend">
-      <listDom />
-      <!-- <div v-for="item in listDom"><item /></div> -->
+      <itemListDom />
     </div>
   </BaseWidget>
 </template>
@@ -27,17 +26,23 @@ import groupLegend from './groupLegend.vue'
 
 const baseHeight = ref(100)
 const { map } = useMap()
-const listDom = ref<VNode[]>([])
+const listDom = ref<VNode>()
+const itemListDom = ref<VNode>()
 const props = defineProps<TWidgetPosition>()
 
-const loop = (layers: Array<LayerWrapper | LayerGroupWrapper>, hArr: number[], list: any[]) => {
+const loop = (
+  layers: Array<LayerWrapper | LayerGroupWrapper>,
+  hArr: number[],
+  list: any[],
+  itemList: any[]
+) => {
   let nodeData: any
-  let itemData: any
+  let itemPropsData: any
   layers.forEach((layer: LayerWrapper | LayerGroupWrapper) => {
     nodeData = undefined
-    itemData = undefined
+    itemPropsData = undefined
     if ('layers' in layer && !layer.options.legend) {
-      loop(layer.layers, hArr, list)
+      loop(layer.layers, hArr, list, itemList)
     } else if (
       layer.options.legend &&
       (layer.options.isAdd ||
@@ -72,7 +77,8 @@ const loop = (layers: Array<LayerWrapper | LayerGroupWrapper>, hArr: number[], l
         const img = map?.images.find((f: any) => f.id === imageId)
         const titleName = text ? text : layer.options.name
 
-        nodeData = h(singleLegend, { title: titleName, styleGeo: style, img })
+        // itemData = h(singleLegend, { title: titleName, styleGeo: style, img })
+        itemPropsData = { title: titleName, styleGeo: style, img }
         hArr.push(26)
       }
     } else {
@@ -81,8 +87,8 @@ const loop = (layers: Array<LayerWrapper | LayerGroupWrapper>, hArr: number[], l
     if (nodeData) {
       list.push(nodeData)
     }
-    if (itemData) {
-      list.push(nodeData)
+    if (itemPropsData) {
+      itemList.push(itemPropsData)
     }
   })
 }
@@ -92,15 +98,17 @@ const init = () => {
   const hArr: number[] = []
   // dom
   const list: any[] = []
-  loop(map!.layers, hArr, list)
+  const itemList: any[] = []
+  loop(map!.layers, hArr, list, itemList)
 
-  listDom.value = list[0]
+  itemListDom.value = h(singleLegend, { propList: itemList })
+  listDom.value = h(singleLegend, { propList: itemList })
   const hei = hArr.reduce((sum, cur) => {
     return sum + cur
   }, 0)
-
   baseHeight.value = hei + 50
 }
+
 const mapLayerChangedHandle = debounce(() => {
   init()
 }, 200)
