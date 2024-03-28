@@ -1,6 +1,7 @@
 <template>
   <Measure :position="position.measure"></Measure>
   <Swipe :position="position.swipe"></Swipe>
+  <LayerList :position="position.layerList"></LayerList>
 </template>
 
 <script setup lang="ts">
@@ -9,6 +10,7 @@ import { FullscreenControl, NavigationControl } from 'mapbox-gl'
 import { onMounted, onUnmounted, ref } from 'vue'
 import Measure from '@/gis/widget/Measure/index.vue'
 import Swipe from '@/gis/widget/Swipe/index.vue'
+import LayerList from '@/gis/widget/LayerList/index.vue'
 // const map = MapContext.map
 const { map } = useMap()
 const position = ref({
@@ -19,7 +21,8 @@ const position = ref({
   swipe: {
     top: '185px',
     right: '10px'
-  }
+  },
+  layerList: { top: '10px', left: '10px' }
 })
 const navCtrl = new NavigationControl()
 const fullCtrl = new FullscreenControl()

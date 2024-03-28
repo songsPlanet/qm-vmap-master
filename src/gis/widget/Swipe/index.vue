@@ -21,7 +21,7 @@
           :mapLayerSetting="map!.mapLayerSetting"
           :onMapLoad="onBeforeMapLoadHandle(map)"
         >
-          <!-- <LayerList position={{ top: 10, left: 10 }} /> -->
+          <LayerList :position="position.left"></LayerList>
         </MapWidget>
         <MapWidget
           class="swipe-map-container"
@@ -29,7 +29,7 @@
           :mapLayerSetting="map!.mapLayerSetting"
           :onMapLoad="onAftherMapLoadHandle(map)"
         >
-          <!-- <LayerList position={{ top: 10, left: 10 }} /> -->
+          <LayerList :position="position.right"></LayerList>
         </MapWidget>
       </div>
     </Modal>
@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
+import LayerList from '@/gis/widget/LayerList/index.vue'
 import MapWidget from '@/gis/widget/MapWidget/index.vue'
 import 'mapbox-gl-compare/dist/mapbox-gl-compare.css'
 import { useMap } from '@/gis/context/mapContext'
@@ -52,6 +53,10 @@ const { map } = useMap()
 const open = ref(false)
 const beforeMap = ref<MapWrapper | null>(null)
 const afterMap = ref<MapWrapper | null>(null)
+const position = ref({
+  left: { top: '10px', left: '10px' },
+  right: { top: '10px', right: '10px' }
+})
 
 const onOpenHandle = () => {
   open.value = !open.value
@@ -70,7 +75,7 @@ watch([beforeMap, afterMap, open], ([newBeforeMap, newAfterMap]) => {
   if (newBeforeMap && newAfterMap) {
     const container = document.getElementById('wrapper')
     if (container) {
-      const compare = new Compare(beforeMap.value, afterMap.value, container, {
+      const compare = new Compare(newBeforeMap, newAfterMap, container, {
         mousemove: false,
         orientation: 'vertical'
       })

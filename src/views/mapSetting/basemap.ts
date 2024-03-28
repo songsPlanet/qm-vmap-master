@@ -1,5 +1,5 @@
-import { type TLayerGroupOptions } from '@/gis/mapboxgl/typings';
-const tianditukey = '7271c460eedd19a02b7b7bb1b19ba7ac';
+import { type TLayerGroupOptions } from '@/gis/mapboxgl/typings'
+const tianditukey = '7271c460eedd19a02b7b7bb1b19ba7ac'
 
 export const basemap: TLayerGroupOptions = {
   id: 'base_map',
@@ -15,9 +15,9 @@ export const basemap: TLayerGroupOptions = {
         type: 'raster',
         tileSize: 256,
         tiles: [
-          `http://t2.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianditukey}`,
-        ],
-      },
+          `http://t2.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianditukey}`
+        ]
+      }
     },
     {
       id: 'tdt_vct',
@@ -28,9 +28,9 @@ export const basemap: TLayerGroupOptions = {
         type: 'raster',
         tileSize: 256,
         tiles: [
-          `http://t2.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianditukey}`,
-        ],
-      },
+          `http://t2.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianditukey}`
+        ]
+      }
     },
     {
       id: 'tdt_cia',
@@ -41,9 +41,9 @@ export const basemap: TLayerGroupOptions = {
         type: 'raster',
         tileSize: 256,
         tiles: [
-          `http://t2.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianditukey}`,
-        ],
-      },
-    },
-  ],
-};
+          `http://t2.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianditukey}`
+        ]
+      }
+    }
+  ]
+}

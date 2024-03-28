@@ -22,7 +22,6 @@ import { PolygonMeasure } from '@/gis/mapboxgl/graphic/PolygonMeasure'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
 import { useMap } from '@/gis/context/mapContext'
 import { Space, Button } from 'ant-design-vue'
-import { ref } from 'vue'
 
 const { map } = useMap()
 const props = defineProps<TWidgetPosition>()
