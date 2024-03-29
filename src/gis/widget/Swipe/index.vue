@@ -1,41 +1,3 @@
-<template>
-  <BaseWidget
-    :name="'卷帘工具'"
-    :position="props"
-    :icon="ControlIcons.Swipe"
-    :openHandle="onOpenHandle"
-  >
-    <Modal
-      title="卷帘对比"
-      :open="open"
-      :width="1250"
-      :footer="null"
-      destroyOnClose
-      :maskClosable="false"
-      @cancel="onCancelHandle"
-    >
-      <div id="wrapper" class="mapboxgl-swipe">
-        <MapWidget
-          class="swipe-map-container"
-          :mapOptions="{ ...map!.options, id: 'swipeBeforeMap' }"
-          :mapLayerSetting="map!.mapLayerSetting"
-          :onMapLoad="onBeforeMapLoadHandle(map)"
-        >
-          <LayerList :position="position.left"></LayerList>
-        </MapWidget>
-        <MapWidget
-          class="swipe-map-container"
-          :mapOptions="{ ...map!.options, id: 'swipeAfterMap' }"
-          :mapLayerSetting="map!.mapLayerSetting"
-          :onMapLoad="onAftherMapLoadHandle(map)"
-        >
-          <LayerList :position="position.right"></LayerList>
-        </MapWidget>
-      </div>
-    </Modal>
-  </BaseWidget>
-</template>
-
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
@@ -87,6 +49,44 @@ watch([beforeMap, afterMap, open], ([newBeforeMap, newAfterMap]) => {
   }
 })
 </script>
+
+<template>
+  <BaseWidget
+    :name="'卷帘工具'"
+    :position="props"
+    :icon="ControlIcons.Swipe"
+    :openHandle="onOpenHandle"
+  >
+    <Modal
+      title="卷帘对比"
+      :open="open"
+      :width="1250"
+      :footer="null"
+      destroyOnClose
+      :maskClosable="false"
+      @cancel="onCancelHandle"
+    >
+      <div id="wrapper" class="mapboxgl-swipe">
+        <MapWidget
+          class="swipe-map-container"
+          :mapOptions="{ ...map!.options, id: 'swipeBeforeMap' }"
+          :mapLayerSetting="map!.mapLayerSetting"
+          :onMapLoad="onBeforeMapLoadHandle(map)"
+        >
+          <LayerList :position="position.left"></LayerList>
+        </MapWidget>
+        <MapWidget
+          class="swipe-map-container"
+          :mapOptions="{ ...map!.options, id: 'swipeAfterMap' }"
+          :mapLayerSetting="map!.mapLayerSetting"
+          :onMapLoad="onAftherMapLoadHandle(map)"
+        >
+          <LayerList :position="position.right"></LayerList>
+        </MapWidget>
+      </div>
+    </Modal>
+  </BaseWidget>
+</template>
 
 <style scoped lang="less">
 @import './index.less';

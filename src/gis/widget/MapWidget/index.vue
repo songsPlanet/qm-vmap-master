@@ -1,9 +1,3 @@
-<template>
-  <div ref="mapDom" class="map-wrapper" id="map-wrapper">
-    <slot v-if="mapInit && MapContext"></slot>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { type TMapLayerSetting } from '@/gis/mapboxgl/typings/TLayerOptions'
 import { onMounted, onUnmounted, onUpdated, ref } from 'vue'
@@ -72,6 +66,13 @@ onUnmounted(() => {
   map.off('load', loadLayers)
 })
 </script>
+
+<template>
+  <div ref="mapDom" class="map-wrapper" id="map-wrapper">
+    <slot v-if="mapInit && MapContext"></slot>
+  </div>
+</template>
+
 
 <style scoped lang="less">
 @import './index.less';

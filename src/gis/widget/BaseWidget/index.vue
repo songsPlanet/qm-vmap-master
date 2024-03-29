@@ -1,18 +1,3 @@
-<template>
-  <div class="mapboxgl-control" :style="controlstyle">
-    <div class="mapboxgl-bar">
-      <div
-        class="mapboxgl-bar-button"
-        @click="onClickHandle"
-        :title="name ?? ''"
-        :style="btnStyle"
-      ></div>
-      <div v-if="name" class="mapboxgl-bar-title">{{ name }}</div>
-    </div>
-    <slot v-if="open"></slot>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 
@@ -52,6 +37,21 @@ const onClickHandle = () => {
   }
 }
 </script>
+
+<template>
+  <div class="mapboxgl-control" :style="controlstyle">
+    <div class="mapboxgl-bar">
+      <div
+        class="mapboxgl-bar-button"
+        @click="onClickHandle"
+        :title="name ?? ''"
+        :style="btnStyle"
+      ></div>
+      <div v-if="name" class="mapboxgl-bar-title">{{ name }}</div>
+    </div>
+    <slot v-if="open"></slot>
+  </div>
+</template>
 
 <style lang="less">
 @import './index.less';

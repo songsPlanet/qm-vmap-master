@@ -1,17 +1,4 @@
-<template>
-  <BaseWidget
-    :name="'图例'"
-    :width="200"
-    :position="props"
-    :icon="ControlIcons.Legend"
-    :height="baseHeight"
-  >
-    <div class="mapboxgl-legend">
-      <itemListDom />
-      <listDom />
-    </div>
-  </BaseWidget>
-</template>
+
 
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
@@ -106,6 +93,22 @@ onUnmounted(() => {
   map?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
 })
 </script>
+
+<template>
+  <BaseWidget
+    :name="'图例'"
+    :width="200"
+    :position="props"
+    :icon="ControlIcons.Legend"
+    :height="baseHeight"
+  >
+    <div class="mapboxgl-legend">
+      <itemListDom />
+      <listDom />
+    </div>
+  </BaseWidget>
+</template>
+
 
 <style lang="less">
 @import './index.less';

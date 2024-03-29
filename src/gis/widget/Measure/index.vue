@@ -1,19 +1,3 @@
-<template>
-  <BaseWidget
-    :name="'测量工具'"
-    :width="130"
-    :height="110"
-    :position="props"
-    :icon="ControlIcons.Measure"
-  >
-    <div class="main">
-      <Space direction="vertical">
-        <Button @click="polylineMeasureHandle" block> 测量距离 </Button>
-        <Button @click="polygonMeasureHandle" block> 测量面积 </Button>
-      </Space>
-    </div>
-  </BaseWidget>
-</template>
 
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
@@ -40,6 +24,23 @@ const polygonMeasureHandle = () => {
   }
 }
 </script>
+
+<template>
+  <BaseWidget
+    :name="'测量工具'"
+    :width="130"
+    :height="110"
+    :position="props"
+    :icon="ControlIcons.Measure"
+  >
+    <div class="main">
+      <Space direction="vertical">
+        <Button @click="polylineMeasureHandle" block> 测量距离 </Button>
+        <Button @click="polygonMeasureHandle" block> 测量面积 </Button>
+      </Space>
+    </div>
+  </BaseWidget>
+</template>
 
 <style scoped lang="less">
 @import './index.less';

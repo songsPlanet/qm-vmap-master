@@ -1,19 +1,3 @@
-<template>
-  <BaseWidget
-    :name="'图层控制'"
-    :width="200"
-    :position="props"
-    :icon="ControlIcons.LayerList"
-    :height="baseHeight"
-  >
-    <a-tree v-model:checkedKeys="keys" checkable :tree-data="data">
-      <template #title="{ title, key }">
-        <span>{{ title }}</span>
-      </template>
-    </a-tree>
-  </BaseWidget>
-</template>
-
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
@@ -151,5 +135,21 @@ onUnmounted(() => {
   map?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
 })
 </script>
+
+<template>
+  <BaseWidget
+    :name="'图层控制'"
+    :width="200"
+    :position="props"
+    :icon="ControlIcons.LayerList"
+    :height="baseHeight"
+  >
+    <a-tree v-model:checkedKeys="keys" checkable :tree-data="data">
+      <template #title="{ title, key }">
+        <span>{{ title }}</span>
+      </template>
+    </a-tree>
+  </BaseWidget>
+</template>
 
 <style lang="less" scoped></style>
