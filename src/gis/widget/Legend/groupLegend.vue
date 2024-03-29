@@ -1,22 +1,19 @@
 <template>
-  <div class="mapboxgl-legend-group">
-    <div className="mapboxgl-legend-group">
-      <div className="mapboxgl-legend-tilte">
-        {{ title }}
-      </div>
-
-    </div>
+  <div className="mapboxgl-legend-group" v-for="list in groupList" :key="list.title">
+    <div className="mapboxgl-legend-tilte">{{ list.title }}</div>
+    <singleLegend :propList="list.items" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import singleLegend from './singleLegend.vue'
+import { defineProps } from 'vue'
 
 interface TWidgetOptions {
-  title: string 
-
+  groupList: any[]
 }
-const { title } = defineProps<TWidgetOptions>()
+const { groupList } = defineProps<TWidgetOptions>()
+console.log('groupList', groupList)
 </script>
 
 <style scoped lang="less">
