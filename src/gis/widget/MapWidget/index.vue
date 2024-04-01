@@ -5,40 +5,45 @@ import { MapContext } from '@/gis/context/mapContext'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import { type MapboxOptions } from 'mapbox-gl'
 import { debounce } from '@/gis/utils'
-import 'mapbox-gl/dist/mapbox-gl.css'
 import { cloneDeep } from 'lodash'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 interface TMapProps {
   mapOptions: MapboxOptions & {
     id: string
   }
   mapLayerSetting: TMapLayerSetting
-  onMapLoad?: (map: MapWrapper) => void
   className?: string
 }
-const { mapOptions, mapLayerSetting, onMapLoad, className } = defineProps<TMapProps>()
+
+const props = defineProps<TMapProps>()
+const emit = defineEmits<{
+  (e: 'onMapLoad', map: MapWrapper): void
+}>()
+
 const mapDom = ref<HTMLDivElement | null>(null)
 const mapInit = ref<boolean>(false)
-let map: any
+const map = ref<MapWrapper | null>()
 
-const loadLayers = () => {
-  map.load(cloneDeep(mapLayerSetting))
+const loadLayers = (map: any) => {
+  map.load(cloneDeep(props.mapLayerSetting))
   mapInit.value = true
-  onMapLoad?.(map)
+  emit('onMapLoad', map)
   if (MapContext) {
     MapContext.map = map
   }
 }
 
 onMounted(() => {
-  map = new MapWrapper({
+  // const map = new MapWrapper({
+  map.value = new MapWrapper({
     pitch: 0,
     bearing: 0,
     attributionControl: false,
     renderWorldCopies: false,
     trackResize: true,
     preserveDrawingBuffer: true,
-    ...mapOptions,
+    ...props.mapOptions,
     container: mapDom.value as HTMLElement,
     style: {
       version: 8,
@@ -47,33 +52,32 @@ onMounted(() => {
       layers: []
     }
   })
-
-  map.on('load', loadLayers)
-  map.on('load', loadLayers)
-  map.on('click', (e: any) => {
+  map.value.on('load', () => loadLayers(map.value))
+  map.value.on('click', (e: any) => {
     console.log(e.lngLat)
-    console.log(map.getCenter(), map.getZoom(), map.getBounds())
+    console.log(map.value?.getCenter(), map.value?.getZoom(), map.value?.getBounds())
   })
   const resizeMap = debounce(() => {
-    map.resize()
+    map.value?.resize()
   }, 10)
 
   const ro = new ResizeObserver(resizeMap)
   ro.observe(mapDom.value as Element)
 })
 
+onUpdated(() => {})
+
 onUnmounted(() => {
-  map.off('load', loadLayers)
+  map.value?.off('load', () => loadLayers(map.value))
 })
 </script>
 
 <template>
-  <div ref="mapDom" class="map-wrapper" id="map-wrapper">
+  <div ref="mapDom" :class="[props.className ? props.className : 'map-wrapper']" id="map-wrapper">
     <slot v-if="mapInit && MapContext"></slot>
   </div>
 </template>
 
-
-<style scoped lang="less">
+<style lang="less">
 @import './index.less';
 </style>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { TableSummaryRow } from 'ant-design-vue'
+import { EmitFlags } from 'typescript'
+import { computed, ref } from 'vue'
 
 export interface TWidgetPosition {
   top?: number
@@ -14,23 +16,27 @@ export interface TWidgetOptions {
   icon: string
   width?: number
   height?: number
-  openHandle?: (value: boolean) => void
+  isOpenHandle?: boolean
 }
 
-const { position, name, icon, width, height, openHandle } = defineProps<TWidgetOptions>()
+const props = defineProps<TWidgetOptions>()
+const emit = defineEmits<{
+  (e: 'openHandle', value: boolean): void
+}>()
+
 const open = ref(false)
 const btnStyle = ref({
-  backgroundImage: `url(${icon})`
+  backgroundImage: `url(${props.icon})`
 })
 const controlstyle = computed(() => ({
-  width: `${open.value ? width ?? 30 : 30}px`,
-  height: `${open.value ? height ?? 30 : 30}px`,
-  ...position
+  width: `${open.value ? props.width ?? 30 : 30}px`,
+  height: `${open.value ? props.height ?? 30 : 30}px`,
+  ...props.position
 }))
 
 const onClickHandle = () => {
-  if (openHandle) {
-    openHandle(true)
+  if (props.isOpenHandle) {
+    emit('openHandle', true)
     open.value = true
   } else {
     open.value = !open.value
@@ -53,6 +59,6 @@ const onClickHandle = () => {
   </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import './index.less';
 </style>

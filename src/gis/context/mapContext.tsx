@@ -6,7 +6,7 @@ export interface TMapContext {
   map: MapWrapper | null
 }
 
-export const MapContext: TMapContext = reactive({ map: null })
+export const MapContext: TMapContext = { map: null }
 
 export const useMap: any = () => {
   const context = reactive(MapContext)

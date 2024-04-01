@@ -142,7 +142,7 @@ onUnmounted(() => {
     :width="200"
     :position="props"
     :icon="ControlIcons.LayerList"
-    :height="baseHeight"
+    v-model:height="baseHeight"
   >
     <a-tree v-model:checkedKeys="keys" checkable :tree-data="data">
       <template #title="{ title, key }">

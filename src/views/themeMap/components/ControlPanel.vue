@@ -1,19 +1,21 @@
 <template>
-  <Swipe :position="position.swipe"></Swipe>
-  <Legend :position="position.legend"></Legend>
-  <Measure :position="position.measure"></Measure>
-  <LayerList :position="position.layerList"></LayerList>
+  <div>
+    <Swipe :position="position.swipe"></Swipe>
+    <Legend :position="position.legend"></Legend>
+    <Measure :position="position.measure"></Measure>
+    <LayerList :position="position.layerList"></LayerList>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { MapContext, useMap } from '@/gis/context/mapContext'
+import { useMap } from '@/gis/context/mapContext'
 import { FullscreenControl, NavigationControl } from 'mapbox-gl'
 import { onMounted, onUnmounted, ref } from 'vue'
 import Measure from '@/gis/widget/Measure/index.vue'
 import Legend from '@/gis/widget/Legend/index.vue'
 import Swipe from '@/gis/widget/Swipe/index.vue'
+import { MapContext } from '@/gis/context/mapContext'
 import LayerList from '@/gis/widget/LayerList/index.vue'
-// const map = MapContext.map
 const { map } = useMap()
 const position = ref({
   measure: {
@@ -41,4 +43,4 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped></style>
+<!-- <style scoped></style> -->

@@ -7,13 +7,14 @@ import 'mapbox-gl-compare/dist/mapbox-gl-compare.css'
 import { useMap } from '@/gis/context/mapContext'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import Compare from 'mapbox-gl-compare'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const props = defineProps<TWidgetPosition>()
 const { map } = useMap()
 const open = ref<boolean>(false)
 const beforeMap = ref<MapWrapper | null>(null)
 const afterMap = ref<MapWrapper | null>(null)
+
 const position = ref({
   left: { top: '10px', left: '10px' },
   right: { top: '10px', right: '10px' }
@@ -22,9 +23,11 @@ const position = ref({
 const onOpenHandle = () => {
   open.value = true
 }
+
 const onCancelHandle = () => {
   open.value = false
 }
+
 const onBeforeMapLoadHandle = (map: any) => {
   beforeMap.value = map
 }
@@ -33,19 +36,28 @@ const onAftherMapLoadHandle = (map: any) => {
 }
 
 watch([beforeMap, afterMap], ([newBeforeMap, newAfterMap]) => {
-  if (beforeMap.value && afterMap.value) {
+  console.log('new', newBeforeMap, newAfterMap)
+
+  if (newBeforeMap && newAfterMap) {
     const container = document.getElementById('swipeContainer')
+    const a = newAfterMap?.getContainer().getBoundingClientRect()
+    console.log('newa', a)
+
     if (container) {
-      const compare = new Compare(beforeMap.value, afterMap.value, container, {
+      const compare = new Compare(newBeforeMap, newAfterMap, container, {
         mousemove: false,
         orientation: 'vertical'
       })
-      beforeMap?.value?.setCenter(map!.getCenter())
-      beforeMap?.value?.setZoom(map!.getZoom())
-      beforeMap?.value?.setBearing(map!.getBearing())
-      afterMap?.value?.setPitch(map!.getPitch())
+      newBeforeMap.setCenter(map!.getCenter())
+      newBeforeMap.setZoom(map!.getZoom())
+      newBeforeMap.setBearing(map!.getBearing())
+      newAfterMap.setPitch(map!.getPitch())
     }
   }
+})
+
+onMounted(() => {
+  console.log('mounted')
 })
 </script>
 
@@ -53,32 +65,33 @@ watch([beforeMap, afterMap], ([newBeforeMap, newAfterMap]) => {
   <BaseWidget
     :name="'卷帘工具'"
     :position="props"
+    :isOpenHandle="true"
     :icon="ControlIcons.Swipe"
-    :openHandle="onOpenHandle"
+    @openHandle="onOpenHandle"
   >
     <a-modal
       title="卷帘对比"
-      width="1250px"
+      :width="1250"
       :footer="null"
       v-model:open="open"
-      :destroyOnClose="true"
       :maskClosable="false"
-      @cancel="onCancelHandle"
+      :destroyOnClose="true"
+      @onCancel="onCancelHandle"
     >
       <div id="swipeContainer" class="mapboxgl-swipe">
         <MapWidget
-          class="swipe-map-container"
-          :mapOptions="{ ...map!.options, id: 'swipeBeforeMap' }"
-          :mapLayerSetting="map!.mapLayerSetting"
-          :onMapLoad="onBeforeMapLoadHandle(map)"
+          :map-layer-setting="map!.mapLayerSetting"
+          :map-options="{ ...map!.options, id: 'swipeBeforeMap' }"
+          @on-map-load="onBeforeMapLoadHandle"
+          class-name="swipe-map-container"
         >
           <LayerList :position="position.left"></LayerList>
         </MapWidget>
         <MapWidget
-          class="swipe-map-container"
-          :mapOptions="{ ...map!.options, id: 'swipeAfterMap' }"
-          :mapLayerSetting="map!.mapLayerSetting"
-          :onMapLoad="onAftherMapLoadHandle(map)"
+          :map-options="{ ...map!.options, id: 'swipeAfterMap' }"
+          :map-layer-setting="map!.mapLayerSetting"
+          @on-map-load="onAftherMapLoadHandle"
+          class-name="swipe-map-container"
         >
           <LayerList :position="position.right"></LayerList>
         </MapWidget>
@@ -87,6 +100,6 @@ watch([beforeMap, afterMap], ([newBeforeMap, newAfterMap]) => {
   </BaseWidget>
 </template>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 @import './index.less';
 </style>
