@@ -21,9 +21,8 @@ const mapOptions = {
   zoom: 8.7,
   maxZoom: 20
 }
-
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 @import './index.less';
 </style>

@@ -7,12 +7,11 @@ import 'mapbox-gl-compare/dist/mapbox-gl-compare.css'
 import { useMap } from '@/gis/context/mapContext'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import Compare from 'mapbox-gl-compare'
-import { Modal } from 'ant-design-vue'
 import { ref, watch } from 'vue'
 
 const props = defineProps<TWidgetPosition>()
 const { map } = useMap()
-const open = ref(false)
+const open = ref<boolean>(false)
 const beforeMap = ref<MapWrapper | null>(null)
 const afterMap = ref<MapWrapper | null>(null)
 const position = ref({
@@ -21,7 +20,7 @@ const position = ref({
 })
 
 const onOpenHandle = () => {
-  open.value = !open.value
+  open.value = true
 }
 const onCancelHandle = () => {
   open.value = false
@@ -33,18 +32,18 @@ const onAftherMapLoadHandle = (map: any) => {
   afterMap.value = map
 }
 
-watch([beforeMap, afterMap, open], ([newBeforeMap, newAfterMap]) => {
-  if (newBeforeMap && newAfterMap) {
-    const container = document.getElementById('wrapper')
+watch([beforeMap, afterMap], ([newBeforeMap, newAfterMap]) => {
+  if (beforeMap.value && afterMap.value) {
+    const container = document.getElementById('swipeContainer')
     if (container) {
-      const compare = new Compare(newBeforeMap, newAfterMap, container, {
+      const compare = new Compare(beforeMap.value, afterMap.value, container, {
         mousemove: false,
         orientation: 'vertical'
       })
-      newBeforeMap.setCenter(map!.getCenter())
-      newBeforeMap.setZoom(map!.getZoom())
-      newBeforeMap.setBearing(map!.getBearing())
-      newAfterMap.setPitch(map!.getPitch())
+      beforeMap?.value?.setCenter(map!.getCenter())
+      beforeMap?.value?.setZoom(map!.getZoom())
+      beforeMap?.value?.setBearing(map!.getBearing())
+      afterMap?.value?.setPitch(map!.getPitch())
     }
   }
 })
@@ -57,16 +56,16 @@ watch([beforeMap, afterMap, open], ([newBeforeMap, newAfterMap]) => {
     :icon="ControlIcons.Swipe"
     :openHandle="onOpenHandle"
   >
-    <Modal
+    <a-modal
       title="卷帘对比"
-      :open="open"
-      :width="1250"
+      width="1250px"
       :footer="null"
-      destroyOnClose
+      v-model:open="open"
+      :destroyOnClose="true"
       :maskClosable="false"
       @cancel="onCancelHandle"
     >
-      <div id="wrapper" class="mapboxgl-swipe">
+      <div id="swipeContainer" class="mapboxgl-swipe">
         <MapWidget
           class="swipe-map-container"
           :mapOptions="{ ...map!.options, id: 'swipeBeforeMap' }"
@@ -84,7 +83,7 @@ watch([beforeMap, afterMap, open], ([newBeforeMap, newAfterMap]) => {
           <LayerList :position="position.right"></LayerList>
         </MapWidget>
       </div>
-    </Modal>
+    </a-modal>
   </BaseWidget>
 </template>
 

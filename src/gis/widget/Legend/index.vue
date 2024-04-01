@@ -110,6 +110,6 @@ onUnmounted(() => {
 </template>
 
 
-<style lang="less">
+<style scoped lang="less">
 @import './index.less';
 </style>
