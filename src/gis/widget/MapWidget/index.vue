@@ -4,8 +4,8 @@ import { onMounted, onUnmounted, onUpdated, ref, provide } from 'vue'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import { type MapboxOptions } from 'mapbox-gl'
 import { debounce } from '@/gis/utils'
-import { cloneDeep } from 'lodash'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { cloneDeep } from 'lodash'
 interface TMapProps {
   mapOptions: MapboxOptions & {
     id: string
@@ -24,14 +24,15 @@ const mapInit = ref<boolean>(false)
 const map = ref<MapWrapper | null>()
 provide('map', map)
 
-const loadLayers = (map: any) => {
-  map.load(cloneDeep(props.mapLayerSetting))
+const loadLayers = (mapload: any) => {
+  mapload.load(cloneDeep(props.mapLayerSetting))
   mapInit.value = true
-  emit('onMapLoad', map)
+  emit('onMapLoad', mapload)
+  map.value = mapload
 }
 
 onMounted(() => {
-  map.value = new MapWrapper({
+  const map = new MapWrapper({
     pitch: 0,
     bearing: 0,
     attributionControl: false,
@@ -47,20 +48,18 @@ onMounted(() => {
       layers: []
     }
   })
-  map.value.on('load', () => loadLayers(map.value))
-  map.value.on('click', (e: any) => {
+  map.on('load', () => loadLayers(map))
+  map.on('click', (e: any) => {
     console.log(e.lngLat)
-    console.log(map.value?.getCenter(), map.value?.getZoom(), map.value?.getBounds())
+    console.log(map.getCenter(), map.getZoom(), map.getBounds())
   })
   const resizeMap = debounce(() => {
-    map.value?.resize()
-  }, 10)
+    map.resize()
+  }, 500)
 
   const ro = new ResizeObserver(resizeMap)
-  // ro.observe(mapDom.value as Element)
+  ro.observe(mapDom?.value as Element)
 })
-
-onUpdated(() => {})
 
 onUnmounted(() => {
   map?.value?.off('load', () => loadLayers(map.value))
