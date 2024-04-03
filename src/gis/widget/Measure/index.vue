@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import { PolylineMeasure } from '@/gis/mapboxgl/graphic/PolylineMeasure'
@@ -6,20 +5,22 @@ import { PolygonMeasure } from '@/gis/mapboxgl/graphic/PolygonMeasure'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
 import { useMap } from '@/gis/context/mapContext'
 import { Space, Button } from 'ant-design-vue'
+import { inject } from 'vue'
+// const { map } = useMap()
+const map = inject<any>('map')
 
-const { map } = useMap()
 const props = defineProps<TWidgetPosition>()
 
 const polylineMeasureHandle = () => {
-  if (map !== null) {
-    let polylineMeasure = new PolylineMeasure(map)
+  if (map.value !== null) {
+    let polylineMeasure = new PolylineMeasure(map.value)
     polylineMeasure.start()
   }
 }
 
 const polygonMeasureHandle = () => {
-  if (map !== null) {
-    let polygonMeasure = new PolygonMeasure(map)
+  if (map.value !== null) {
+    let polygonMeasure = new PolygonMeasure(map.value)
     polygonMeasure.start()
   }
 }

@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { type TMapLayerSetting } from '@/gis/mapboxgl/typings/TLayerOptions'
-import { onMounted, onUnmounted, onUpdated, ref } from 'vue'
-import { MapContext } from '@/gis/context/mapContext'
+import { onMounted, onUnmounted, onUpdated, ref, provide } from 'vue'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import { type MapboxOptions } from 'mapbox-gl'
 import { debounce } from '@/gis/utils'
 import { cloneDeep } from 'lodash'
 import 'mapbox-gl/dist/mapbox-gl.css'
-
 interface TMapProps {
   mapOptions: MapboxOptions & {
     id: string
@@ -24,18 +22,15 @@ const emit = defineEmits<{
 const mapDom = ref<HTMLDivElement | null>(null)
 const mapInit = ref<boolean>(false)
 const map = ref<MapWrapper | null>()
+provide('map', map)
 
 const loadLayers = (map: any) => {
   map.load(cloneDeep(props.mapLayerSetting))
   mapInit.value = true
   emit('onMapLoad', map)
-  if (MapContext) {
-    MapContext.map = map
-  }
 }
 
 onMounted(() => {
-  // const map = new MapWrapper({
   map.value = new MapWrapper({
     pitch: 0,
     bearing: 0,
@@ -62,19 +57,19 @@ onMounted(() => {
   }, 10)
 
   const ro = new ResizeObserver(resizeMap)
-  ro.observe(mapDom.value as Element)
+  // ro.observe(mapDom.value as Element)
 })
 
 onUpdated(() => {})
 
 onUnmounted(() => {
-  map.value?.off('load', () => loadLayers(map.value))
+  map?.value?.off('load', () => loadLayers(map.value))
 })
 </script>
 
 <template>
   <div ref="mapDom" :class="[props.className ? props.className : 'map-wrapper']" id="map-wrapper">
-    <slot v-if="mapInit && MapContext"></slot>
+    <slot v-if="mapInit && map"></slot>
   </div>
 </template>
 

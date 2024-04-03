@@ -7,10 +7,11 @@ import 'mapbox-gl-compare/dist/mapbox-gl-compare.css'
 import { useMap } from '@/gis/context/mapContext'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import Compare from 'mapbox-gl-compare'
-import { onMounted, ref, watch } from 'vue'
+import { inject, onMounted, ref, watch } from 'vue'
 
 const props = defineProps<TWidgetPosition>()
-const { map } = useMap()
+// const { map } = useMap()
+const map = inject<any>('map')
 const open = ref<boolean>(false)
 const beforeMap = ref<MapWrapper | null>(null)
 const afterMap = ref<MapWrapper | null>(null)
@@ -36,22 +37,18 @@ const onAftherMapLoadHandle = (map: any) => {
 }
 
 watch([beforeMap, afterMap], ([newBeforeMap, newAfterMap]) => {
-  console.log('new', newBeforeMap, newAfterMap)
-
   if (newBeforeMap && newAfterMap) {
     const container = document.getElementById('swipeContainer')
-    const a = newAfterMap?.getContainer().getBoundingClientRect()
-    console.log('newa', a)
 
     if (container) {
       const compare = new Compare(newBeforeMap, newAfterMap, container, {
         mousemove: false,
         orientation: 'vertical'
       })
-      newBeforeMap.setCenter(map!.getCenter())
-      newBeforeMap.setZoom(map!.getZoom())
-      newBeforeMap.setBearing(map!.getBearing())
-      newAfterMap.setPitch(map!.getPitch())
+      newBeforeMap.setCenter(map!.value.getCenter())
+      newBeforeMap.setZoom(map!.value.getZoom())
+      newBeforeMap.setBearing(map!.value.getBearing())
+      newAfterMap.setPitch(map!.value.getPitch())
     }
   }
 })

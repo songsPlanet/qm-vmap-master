@@ -1,19 +1,19 @@
-
-
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
 import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
-import { onMounted, ref, h, onUnmounted, type VNode } from 'vue'
+import { onMounted, ref, h, onUnmounted, type VNode, inject } from 'vue'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
-import { useMap } from '@/gis/context/mapContext'
+// import { useMap } from '@/gis/context/mapContext'
 import { MapEvent } from '@/gis/mapboxgl/typings'
 import { debounce } from '@/gis/utils'
 import singleLegend from './singleLegend.vue'
 import groupLegend from './groupLegend.vue'
 
 const baseHeight = ref(200)
-const { map } = useMap()
+// const { map } = useMap()
+const map = inject<any>('map')
+
 const listDom = ref<VNode>()
 const itemListDom = ref<VNode>()
 const props = defineProps<TWidgetPosition>()
@@ -46,7 +46,7 @@ const loop = (
         hArr.push(50)
       } else {
         const { style, imageId, text } = layer.options.legend
-        const img = map?.images.find((f: any) => f.id === imageId)
+        const img = map?.value.images.find((f: any) => f.id === imageId)
         const titleName = text ? text : layer.options.name
         itemPropsData = { text: titleName, style, img }
         hArr.push(26)
@@ -70,7 +70,7 @@ const init = () => {
   // dom
   const list: any[] = []
   const itemList: any[] = []
-  loop(map!.layers, hArr, list, itemList)
+  loop(map!.value.layers, hArr, list, itemList)
 
   itemListDom.value = h(singleLegend, { propList: itemList })
   listDom.value = h(groupLegend, { groupList: list })
@@ -85,18 +85,18 @@ const mapLayerChangedHandle = debounce(() => {
 }, 200)
 
 onMounted(() => {
-  map?.on(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
+  map?.value?.on(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
   init()
 })
 
 onUnmounted(() => {
-  map?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
+  map?.value?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
 })
 </script>
 
 <template>
   <BaseWidget
-    :name="'图例'"
+    name="图例"
     :width="200"
     :position="props"
     :icon="ControlIcons.Legend"
@@ -108,7 +108,6 @@ onUnmounted(() => {
     </div>
   </BaseWidget>
 </template>
-
 
 <style scoped lang="less">
 @import './index.less';

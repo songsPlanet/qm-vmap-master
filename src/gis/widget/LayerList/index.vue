@@ -3,14 +3,14 @@ import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
 import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
-import { useMap } from '@/gis/context/mapContext'
 import { MapEvent } from '@/gis/mapboxgl/typings'
 import type { TreeProps } from 'ant-design-vue'
-import { onMounted, ref, watch, onUnmounted } from 'vue'
+import { onMounted, ref, watch, onUnmounted, inject } from 'vue'
 import { debounce } from '@/gis/utils'
 
 const props = defineProps<TWidgetPosition>()
-const { map } = useMap()
+const map = inject<any>('map')
+
 const keys = ref<string[]>([])
 const data = ref<TreeProps[]>([])
 const baseHeight = ref<number>(280)
@@ -52,7 +52,6 @@ const loop = (data: Array<LayerWrapper | LayerGroupWrapper>, keys: string[]) => 
 const getOldHalfKeys = (oldKeys: string[]) => {
   const list: string[] = []
   data.value.map((d: any) => {
-    // console.log('ddddd', d)
     if (d.children) {
       list.push(d.key)
     }
@@ -72,33 +71,33 @@ const checkedHandle = (checkedKeys: any, oldKeys: any) => {
   const delKeys = new Set([...union].filter((x) => !checkedKeys.includes(x)))
 
   addKeys.forEach((key: string) => {
-    const lyr = map?.getLayerWrapper(map.layers, key)
+    const lyr = map.value?.getLayerWrapper(map.value.layers, key)
     if (lyr && 'layers' in lyr) {
       lyr.layers.forEach((d: any) => {
         d.options.isAdd = true
       })
-      map?.addLayerWrapper(lyr)
+      map.value?.addLayerWrapper(lyr)
     } else if (lyr) {
       lyr.options.isAdd = true
-      map?.addLayerWrapper(lyr)
+      map.value?.addLayerWrapper(lyr)
     }
   })
 
   delKeys.forEach((key: any) => {
-    const lyr = map?.getLayerWrapper(map.layers, key)
+    const lyr = map.value?.getLayerWrapper(map.value.layers, key)
     if (lyr && 'layers' in lyr) {
       lyr.layers.forEach((d: any) => {
         d.options.isAdd = false
       })
-      map?.removeLayerWrapper(lyr)
+      map.value?.removeLayerWrapper(lyr)
     } else if (lyr) {
       lyr.options.isAdd = false
-      map?.removeLayerWrapper(lyr)
+      map.value?.removeLayerWrapper(lyr)
     }
   })
 
   // 修正logicGroup isAdd属性
-  map!.layers.forEach((layer: any) => {
+  map.value!.layers.forEach((layer: any) => {
     modifyMapLayers(layer)
   })
 }
@@ -118,7 +117,7 @@ const modifyMapLayers = (layer: LayerWrapper | LayerGroupWrapper) => {
 }
 const init = () => {
   const loadkeys: string[] = []
-  const treeData = map ? loop(map.layers, loadkeys) : []
+  const treeData = map.value ? loop(map.value.layers, loadkeys) : []
   data.value = treeData
   keys.value = loadkeys
 }
@@ -127,12 +126,12 @@ const mapLayerChangedHandle = debounce(() => {
 }, 300)
 
 onMounted(() => {
-  map?.on(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
+  map.value?.on(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
   init()
 })
 
 onUnmounted(() => {
-  map?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
+  map.value?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
 })
 </script>
 
