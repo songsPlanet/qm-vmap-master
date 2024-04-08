@@ -4,11 +4,11 @@ import { defineProps } from 'vue'
 interface TWidgetOptions {
   groupList: any[]
 }
-const { groupList } = defineProps<TWidgetOptions>()
+const props = defineProps<TWidgetOptions>()
 </script>
 
 <template>
-  <div className="mapboxgl-legend-group" v-for="list in groupList" :key="list.title">
+  <div className="mapboxgl-legend-group" v-for="list in props.groupList" :key="list.title">
     <div className="mapboxgl-legend-tilte">{{ list.title }}</div>
     <singleLegend :propList="list.items" />
   </div>

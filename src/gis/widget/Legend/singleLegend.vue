@@ -9,11 +9,11 @@ interface TPropsOptions {
   }[]
 }
 
-const { propList } = defineProps<TPropsOptions>()
+const props = defineProps<TPropsOptions>()
 </script>
 
 <template>
-  <div className="mapboxgl-legend-item" v-for="items in propList" :key="items.text">
+  <div className="mapboxgl-legend-item" v-for="items in props.propList" :key="items.text">
     <img v-if="items.img" :src="items.img.data" alt="" class="mapboxgl-legend-item-img" />
     <div v-else class="mapboxgl-legend-item-geo" :style="items.style"></div>
     <div class="mapboxgl-legend-item-text">{{ items.text }}</div>

@@ -2,15 +2,14 @@
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
 import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
+import { onMounted, ref, watch, onUnmounted, inject } from 'vue'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
 import { MapEvent } from '@/gis/mapboxgl/typings'
 import type { TreeProps } from 'ant-design-vue'
-import { onMounted, ref, watch, onUnmounted, inject } from 'vue'
 import { debounce } from '@/gis/utils'
 
 const props = defineProps<TWidgetPosition>()
 const map = inject<any>('map')
-
 const keys = ref<string[]>([])
 const data = ref<TreeProps[]>([])
 const baseHeight = ref<number>(280)
@@ -137,14 +136,14 @@ onUnmounted(() => {
 
 <template>
   <BaseWidget
-    :name="'图层控制'"
-    :width="200"
+    name="图层控制"
+    :width="220"
     :position="props"
     :icon="ControlIcons.LayerList"
-    v-model:height="baseHeight"
+    :height="baseHeight"
   >
     <a-tree v-model:checkedKeys="keys" checkable :tree-data="data">
-      <template #title="{ title, key }">
+      <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
     </a-tree>

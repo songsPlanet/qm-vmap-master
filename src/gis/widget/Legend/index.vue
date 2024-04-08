@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
-import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
 import { onMounted, ref, h, onUnmounted, type VNode, inject } from 'vue'
+import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
-// import { useMap } from '@/gis/context/mapContext'
 import { MapEvent } from '@/gis/mapboxgl/typings'
 import { debounce } from '@/gis/utils'
 import singleLegend from './singleLegend.vue'
 import groupLegend from './groupLegend.vue'
 
 const baseHeight = ref(200)
-// const { map } = useMap()
 const map = inject<any>('map')
-
-const listDom = ref<VNode>()
+const grouplistDom = ref<VNode>()
+const groupLegendList = ref<any[]>([])
 const itemListDom = ref<VNode>()
+const singleLegendList = ref<any[]>([])
+
 const props = defineProps<TWidgetPosition>()
 
 const loop = (
@@ -71,9 +71,10 @@ const init = () => {
   const list: any[] = []
   const itemList: any[] = []
   loop(map!.value.layers, hArr, list, itemList)
-
   itemListDom.value = h(singleLegend, { propList: itemList })
-  listDom.value = h(groupLegend, { groupList: list })
+  grouplistDom.value = h(groupLegend, { groupList: list })
+  groupLegendList.value = list
+  singleLegendList.value = itemList
   const hei = hArr.reduce((sum, cur) => {
     return sum + cur
   }, 0)
@@ -103,8 +104,8 @@ onUnmounted(() => {
     :height="baseHeight"
   >
     <div class="mapboxgl-legend">
-      <itemListDom />
-      <listDom />
+      <itemListDom v-if="singleLegendList.length > 0" />
+      <grouplistDom v-if="groupLegendList.length > 0" />
     </div>
   </BaseWidget>
 </template>
