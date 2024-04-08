@@ -1,7 +1,7 @@
-import { IControl, Map as MapboxMap } from 'mapbox-gl';
+import { type IControl, Map as MapboxMap } from 'mapbox-gl';
 import CrosshairManager from './crosshair-manager';
 import PrintableAreaManager from './printable-area-manager';
-import { english, finnish, french, swedish, Translation, vietnam, chinese } from './local';
+import { english, finnish, french, swedish, type Translation, vietnam, chinese } from './local';
 import MapGenerator, { Size, Format, PageOrientation, DPI, Unit } from './map-generator';
 
 type Options = {

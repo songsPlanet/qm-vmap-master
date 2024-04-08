@@ -11,11 +11,10 @@ import groupLegend from './groupLegend.vue'
 
 const baseHeight = ref(200)
 const map = inject<any>('map')
+const itemListDom = ref<VNode>()
 const grouplistDom = ref<VNode>()
 const groupLegendList = ref<any[]>([])
-const itemListDom = ref<VNode>()
 const singleLegendList = ref<any[]>([])
-
 const props = defineProps<TWidgetPosition>()
 
 const loop = (
@@ -40,7 +39,7 @@ const loop = (
       if (items) {
         const titleName = title ? title : layer.options.name
         nodeData = { title: titleName, items }
-        items?.map((d) => {
+        items?.map(() => {
           hArr.push(26)
         })
         hArr.push(50)
@@ -100,8 +99,8 @@ onUnmounted(() => {
     name="图例"
     :width="200"
     :position="props"
-    :icon="ControlIcons.Legend"
     :height="baseHeight"
+    :icon="ControlIcons.Legend"
   >
     <div class="mapboxgl-legend">
       <itemListDom v-if="singleLegendList.length > 0" />

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { LngLatLike, PopupOptions } from 'mapbox-gl'
-import { useMap } from '@/gis/context/mapContext'
 import { Popup } from 'mapbox-gl'
-import { onMounted, onUnmounted, onUpdated } from 'vue'
+import { onMounted, onUnmounted, onUpdated, inject } from 'vue'
 
 let defaultXY = {
   x: 0,
@@ -17,7 +16,8 @@ export type PopupEvent = {
   type: 'open' | 'close'
   target: Popup
 }
-export type TPopupWrapper = PopupOptions & {
+// export type TPopupWrapper = PopupOptions & {
+export type TPopupWrapper = {
   lngLat: LngLatLike
   enableDrag?: boolean
   title: string
@@ -26,8 +26,8 @@ export type TPopupWrapper = PopupOptions & {
 }
 
 const { lngLat, onOpen, onClose, enableDrag, title } = defineProps<TPopupWrapper>()
-const props = defineProps<TPopupWrapper>()
-const { map } = useMap()
+// const props = defineProps<TPopupWrapper>()
+const map = inject<any>('map')
 
 onUpdated(() => {
   if (popup.isOpen()) {
@@ -119,7 +119,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <container >
+  <container>
     <slot></slot>
   </container>
 </template>

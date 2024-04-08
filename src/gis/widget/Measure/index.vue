@@ -3,12 +3,10 @@ import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.
 import { PolylineMeasure } from '@/gis/mapboxgl/graphic/PolylineMeasure'
 import { PolygonMeasure } from '@/gis/mapboxgl/graphic/PolygonMeasure'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
-import { useMap } from '@/gis/context/mapContext'
 import { Space, Button } from 'ant-design-vue'
 import { inject } from 'vue'
-// const { map } = useMap()
-const map = inject<any>('map')
 
+const map = inject<any>('map')
 const props = defineProps<TWidgetPosition>()
 
 const polylineMeasureHandle = () => {
