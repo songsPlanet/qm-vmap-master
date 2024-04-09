@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import singleLegend from './singleLegend.vue'
-import { defineProps } from 'vue'
+
 interface TWidgetOptions {
   groupList: any[]
 }

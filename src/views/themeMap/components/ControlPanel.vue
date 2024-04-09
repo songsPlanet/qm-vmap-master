@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { FullscreenControl, NavigationControl } from 'mapbox-gl'
-import { onMounted, onUnmounted, ref, inject } from 'vue'
+import { onMounted, onUnmounted, reactive, inject } from 'vue'
 import LayerList from '@/gis/widget/LayerList/index.vue'
 import Measure from '@/gis/widget/Measure/index.vue'
 import Legend from '@/gis/widget/Legend/index.vue'
@@ -17,7 +17,7 @@ import Swipe from '@/gis/widget/Swipe/index.vue'
 import { MapboxExportControl } from '@/gis/widget/Print'
 
 const map = inject<any>('map')
-const position = ref({
+const position = reactive({
   swipe: { top: '225px', right: '10px' },
   measure: { top: '185px', right: '10px' },
   layerList: { top: '10px', left: '10px' },

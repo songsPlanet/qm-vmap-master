@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { Descriptions } from 'ant-design-vue'
-import { defineProps } from 'vue'
 interface TWidgetOptions {
   data?: any
 }
 const props = defineProps<TWidgetOptions>()
-console.log('data', props.data)
-
 const fieldMap = [
   {
     name: 'dkbm',

@@ -11,9 +11,8 @@
 import PopupPanel from '@/gis/widget/PopupPanel/index.vue'
 import MapWidget from '@/gis/widget/MapWidget/index.vue'
 import ControlPanel from './components/ControlPanel.vue'
-import GeoPopup from './components/popup/GeoPopup.vue'
+import GeoPopup from './components/Popup/GeoPopup.vue'
 import { wh_sy_geo } from '../mapSetting/wh_sy_geo'
-// import FieldPopup from './components/popup/index'
 import { type LngLatLike } from 'mapbox-gl'
 import mapSetting from './mapSetting'
 
