@@ -5,7 +5,7 @@ import LayerList from '@/gis/widget/LayerList/index.vue'
 import MapWidget from '@/gis/widget/MapWidget/index.vue'
 import 'mapbox-gl-compare/dist/mapbox-gl-compare.css'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
-import { inject, ref, watch, reactive } from 'vue'
+import { inject, ref, watch } from 'vue'
 import Compare from 'mapbox-gl-compare'
 
 const props = defineProps<TWidgetPosition>()
@@ -14,7 +14,7 @@ const compare = ref<any>(null)
 const open = ref<boolean>(false)
 const beforeMap = ref<MapWrapper | null>(null)
 const afterMap = ref<MapWrapper | null>(null)
-const position = reactive({
+const position = ref({
   left: { top: '10px', left: '10px' },
   right: { top: '10px', right: '10px' }
 })

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TableSummaryRow } from 'ant-design-vue'
 import { EmitFlags } from 'typescript'
-import { computed, ref, reactive } from 'vue'
+import { computed, ref } from 'vue'
 
 export interface TWidgetPosition {
   top?: number
@@ -25,7 +25,7 @@ const emit = defineEmits<{
 }>()
 
 const open = ref(false)
-const btnStyle = reactive({
+const btnStyle = ref({
   backgroundImage: `url(${props.icon})`
 })
 
