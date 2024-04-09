@@ -18,9 +18,9 @@ export default defineComponent({
         text: '确权人名称'
       },
       {
-        name: 'scmjm',
+        name: 'mj',
         text: '实测面积',
-        func: () => `${props.data['scmjm']}亩`
+        func: () => `${props.data['mj']}亩`
       },
       {
         name: 'XZQH',

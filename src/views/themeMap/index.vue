@@ -1,7 +1,7 @@
 <template>
   <div class="mapContainer">
     <MapWidget :mapOptions="mapOptions" :mapLayerSetting="mapSetting">
-      <!-- <PopupPanel :vector="vector" /> -->
+      <PopupPanel :vector="vector" />
       <ControlPanel />
     </MapWidget>
   </div>
@@ -11,12 +11,13 @@
 import PopupPanel from '@/gis/widget/PopupPanel/index.vue'
 import MapWidget from '@/gis/widget/MapWidget/index.vue'
 import ControlPanel from './components/ControlPanel.vue'
-import { type LngLatLike } from 'mapbox-gl'
+import GeoPopup from './components/popup/GeoPopup.vue'
 import { wh_sy_geo } from '../mapSetting/wh_sy_geo'
-import FieldPopup from './components/popup/index'
+// import FieldPopup from './components/popup/index'
+import { type LngLatLike } from 'mapbox-gl'
 import mapSetting from './mapSetting'
 
-const vector = [{ id: wh_sy_geo.id, title: wh_sy_geo.name, template: FieldPopup }]
+const vector = [{ id: wh_sy_geo.id, title: wh_sy_geo.name, template: GeoPopup }]
 
 const mapOptions = {
   id: 'themeMap',
