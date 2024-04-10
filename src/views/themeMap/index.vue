@@ -1,12 +1,3 @@
-<template>
-  <div class="mapContainer">
-    <MapWidget :mapOptions="mapOptions" :mapLayerSetting="mapSetting">
-      <PopupPanel :vector="vector" />
-      <ControlPanel />
-    </MapWidget>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import PopupPanel from '@/gis/widget/PopupPanel/index.vue'
 import MapWidget from '@/gis/widget/MapWidget/index.vue'
@@ -27,6 +18,15 @@ const mapOptions = {
   maxZoom: 20
 }
 </script>
+
+<template>
+  <div class="mapContainer">
+    <MapWidget :mapOptions="mapOptions" :mapLayerSetting="mapSetting">
+      <PopupPanel :vector="vector" />
+      <ControlPanel />
+    </MapWidget>
+  </div>
+</template>
 
 <style scoped lang="less">
 @import './index.less';

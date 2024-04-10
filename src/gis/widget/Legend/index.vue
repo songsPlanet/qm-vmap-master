@@ -23,11 +23,11 @@ const loop = (
   list: any[],
   itemList: any[]
 ) => {
-  let nodeData: any
-  let itemPropsData: any
+  let groupNodeData: any
+  let itemNodeData: any
   layers.forEach((layer: LayerWrapper | LayerGroupWrapper) => {
-    nodeData = undefined
-    itemPropsData = undefined
+    groupNodeData = undefined
+    itemNodeData = undefined
     if ('layers' in layer && !layer.options.legend) {
       loop(layer.layers, hArr, list, itemList)
     } else if (
@@ -37,28 +37,30 @@ const loop = (
     ) {
       const { title, items } = layer.options.legend
       if (items) {
+        // 图例组
         const titleName = title ? title : layer.options.name
-        nodeData = { title: titleName, items }
+        groupNodeData = { title: titleName, items }
         items?.map(() => {
           hArr.push(26)
         })
         hArr.push(50)
       } else {
+        // 单个图例
         const { style, imageId, text } = layer.options.legend
         const img = map?.value.images.find((f: any) => f.id === imageId)
         const titleName = text ? text : layer.options.name
-        itemPropsData = { text: titleName, style, img }
+        itemNodeData = { text: titleName, style, img }
         hArr.push(26)
       }
     } else {
-      nodeData = undefined
-      itemPropsData = undefined
+      groupNodeData = undefined
+      itemNodeData = undefined
     }
-    if (nodeData) {
-      list.push(nodeData)
+    if (groupNodeData) {
+      list.push(groupNodeData)
     }
-    if (itemPropsData) {
-      itemList.push(itemPropsData)
+    if (itemNodeData) {
+      itemList.push(itemNodeData)
     }
   })
 }

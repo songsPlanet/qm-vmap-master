@@ -14,14 +14,6 @@ const compare = ref<any>(null)
 const open = ref<boolean>(false)
 const beforeMap = ref<MapWrapper | null>(null)
 const afterMap = ref<MapWrapper | null>(null)
-const position = ref({
-  left: { top: '10px', left: '10px' },
-  right: { top: '10px', right: '10px' }
-})
-
-const onOpenHandle = () => {
-  open.value = true
-}
 
 const onBeforeMapLoadHandle = (map: any) => {
   beforeMap.value = map
@@ -57,7 +49,7 @@ watch([beforeMap, afterMap], (value) => {
     :position="props"
     :isOpenHandle="true"
     :icon="ControlIcons.Swipe"
-    @openHandle="onOpenHandle"
+    @openHandle="open = true"
   >
     <a-modal
       title="卷帘对比"
@@ -69,20 +61,20 @@ watch([beforeMap, afterMap], (value) => {
     >
       <div id="swipeContainer" class="mapboxgl-swipe">
         <MapWidget
-          :map-options="{ ...map!.options, id: 'swipeBeforeMap' }"
-          :map-layer-setting="map!.mapLayerSetting"
-          @on-map-load="onBeforeMapLoadHandle"
-          class-name="swipe-map-container"
+          :mapOptions="{ ...map!.options, id: 'swipeBeforeMap' }"
+          :mapLayerSetting="map!.mapLayerSetting"
+          @onMapLoad="onBeforeMapLoadHandle"
+          className="swipe-map-container"
         >
-          <LayerList :position="position.left"></LayerList>
+          <LayerList :position="{ top: '10px', left: '10px' }"></LayerList>
         </MapWidget>
         <MapWidget
-          :map-options="{ ...map!.options, id: 'swipeAfterMap' }"
-          :map-layer-setting="map!.mapLayerSetting"
-          @on-map-load="onAftherMapLoadHandle"
-          class-name="swipe-map-container"
+          :mapOptions="{ ...map!.options, id: 'swipeAfterMap' }"
+          :mapLayerSetting="map!.mapLayerSetting"
+          @onMapLoad="onAftherMapLoadHandle"
+          className="swipe-map-container"
         >
-          <LayerList :position="position.right"></LayerList>
+          <LayerList :position="{ top: '10px', right: '10px' }"></LayerList>
         </MapWidget>
       </div>
     </a-modal>

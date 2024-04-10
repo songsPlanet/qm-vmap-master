@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { type TMapLayerSetting } from '@/gis/mapboxgl/typings/TLayerOptions'
-import { onMounted, onUnmounted, onUpdated, ref, provide } from 'vue'
+import { onMounted, onUnmounted, ref, provide } from 'vue'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import { type MapboxOptions } from 'mapbox-gl'
 import { debounce } from '@/gis/utils'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { cloneDeep } from 'lodash'
+
 interface TMapProps {
   mapOptions: MapboxOptions & {
     id: string

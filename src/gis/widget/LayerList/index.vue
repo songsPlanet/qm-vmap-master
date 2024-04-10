@@ -139,8 +139,8 @@ onUnmounted(() => {
     name="图层控制"
     :width="220"
     :position="props"
-    :icon="ControlIcons.LayerList"
     :height="baseHeight"
+    :icon="ControlIcons.LayerList"
   >
     <a-tree v-model:checkedKeys="keys" checkable :tree-data="data">
       <template #title="{ title }">
