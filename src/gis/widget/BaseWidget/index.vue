@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { TableSummaryRow } from 'ant-design-vue'
-import { EmitFlags } from 'typescript'
 import { computed, ref } from 'vue'
 
 export interface TWidgetPosition {

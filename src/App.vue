@@ -8,7 +8,7 @@
 import MainLayout from './components/MainLayout/index.vue'
 </script>
 
-<style scoped>
+<style>
 body {
   margin: 0;
   padding: 0;

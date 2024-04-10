@@ -30,18 +30,18 @@ const onAftherMapLoadHandle = (map: any) => {
   afterMap.value = map
 }
 
-watch([beforeMap, afterMap], ([newBeforeMap, newAfterMap]) => {
+watch([beforeMap, afterMap], (value) => {
+  const [newBeforeMap, newAfterMap] = value
   if (newBeforeMap && newAfterMap) {
     const container = document.getElementById('swipeContainer')
     if (container) {
       if (compare.value) {
         compare.value.remove()
-      } else {
-        compare.value = new Compare(newBeforeMap, newAfterMap, container, {
-          mousemove: false,
-          orientation: 'vertical'
-        })
       }
+      compare.value = new Compare(newBeforeMap, newAfterMap, container, {
+        mousemove: false,
+        orientation: 'vertical'
+      })
     }
     newBeforeMap.setCenter(map!.value.getCenter())
     newBeforeMap.setZoom(map!.value.getZoom())

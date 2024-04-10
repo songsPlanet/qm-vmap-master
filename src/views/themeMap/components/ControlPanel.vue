@@ -11,10 +11,10 @@
 import { FullscreenControl, NavigationControl } from 'mapbox-gl'
 import { onMounted, onUnmounted, ref, inject } from 'vue'
 import LayerList from '@/gis/widget/LayerList/index.vue'
+import { MapboxExportControl } from '@/gis/widget/Print'
 import Measure from '@/gis/widget/Measure/index.vue'
 import Legend from '@/gis/widget/Legend/index.vue'
 import Swipe from '@/gis/widget/Swipe/index.vue'
-import { MapboxExportControl } from '@/gis/widget/Print'
 
 const map = inject<any>('map')
 const position = ref({
