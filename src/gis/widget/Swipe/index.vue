@@ -47,9 +47,9 @@ watch([beforeMap, afterMap], (value) => {
   <BaseWidget
     :name="'卷帘工具'"
     :position="props"
-    :isOpenHandle="true"
+    :is-open-handle="true"
     :icon="ControlIcons.Swipe"
-    @openHandle="open = true"
+    @open-handle="open = true"
   >
     <a-modal
       title="卷帘对比"
@@ -61,18 +61,18 @@ watch([beforeMap, afterMap], (value) => {
     >
       <div id="swipeContainer" class="mapboxgl-swipe">
         <MapWidget
-          :mapOptions="{ ...map!.options, id: 'swipeBeforeMap' }"
-          :mapLayerSetting="map!.mapLayerSetting"
-          @onMapLoad="onBeforeMapLoadHandle"
-          className="swipe-map-container"
+          :map-options="{ ...map!.options, id: 'swipeBeforeMap' }"
+          :map-layer-setting="map!.mapLayerSetting"
+          @on-map-load="onBeforeMapLoadHandle"
+          class-name="swipe-map-container"
         >
           <LayerList :position="{ top: '10px', left: '10px' }"></LayerList>
         </MapWidget>
         <MapWidget
-          :mapOptions="{ ...map!.options, id: 'swipeAfterMap' }"
-          :mapLayerSetting="map!.mapLayerSetting"
-          @onMapLoad="onAftherMapLoadHandle"
-          className="swipe-map-container"
+          :map-options="{ ...map!.options, id: 'swipeAfterMap' }"
+          :map-layer-setting="map!.mapLayerSetting"
+          @on-map-load="onAftherMapLoadHandle"
+          class-name="swipe-map-container"
         >
           <LayerList :position="{ top: '10px', right: '10px' }"></LayerList>
         </MapWidget>

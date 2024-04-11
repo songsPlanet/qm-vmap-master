@@ -8,7 +8,7 @@
       <a-menu v-model:selectedKeys="selectedKeys" theme="light" mode="inline">
         <a-menu-item key="1">
           <user-outlined />
-          <span><RouterLink to="/">一张图</RouterLink> </span>
+          <span><RouterLink :to="{ path: '/', query: { a: 1 } }">一张图</RouterLink> </span>
         </a-menu-item>
         <a-menu-item key="3">
           <upload-outlined />

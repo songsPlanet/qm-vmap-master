@@ -1,35 +1,29 @@
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
-import { onMounted, ref, h, onUnmounted, type VNode, inject } from 'vue'
 import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
+import { onMounted, ref, onUnmounted, inject } from 'vue'
 import { MapEvent } from '@/gis/mapboxgl/typings'
 import { debounce } from '@/gis/utils'
 import singleLegend from './singleLegend.vue'
-import groupLegend from './groupLegend.vue'
 
 const baseHeight = ref(200)
 const map = inject<any>('map')
-const itemListDom = ref<VNode>()
-const grouplistDom = ref<VNode>()
 const groupLegendList = ref<any[]>([])
 const singleLegendList = ref<any[]>([])
 const props = defineProps<TWidgetPosition>()
 
-const loop = (
-  layers: Array<LayerWrapper | LayerGroupWrapper>,
-  hArr: number[],
-  list: any[],
-  itemList: any[]
-) => {
+const loop = (layers: Array<LayerWrapper | LayerGroupWrapper>, hArr: number[]) => {
+  groupLegendList.value = []
+  singleLegendList.value = []
   let groupNodeData: any
   let itemNodeData: any
   layers.forEach((layer: LayerWrapper | LayerGroupWrapper) => {
     groupNodeData = undefined
     itemNodeData = undefined
     if ('layers' in layer && !layer.options.legend) {
-      loop(layer.layers, hArr, list, itemList)
+      loop(layer.layers, hArr)
     } else if (
       layer.options.legend &&
       (layer.options.isAdd ||
@@ -57,10 +51,10 @@ const loop = (
       itemNodeData = undefined
     }
     if (groupNodeData) {
-      list.push(groupNodeData)
+      groupLegendList.value.push(groupNodeData)
     }
     if (itemNodeData) {
-      itemList.push(itemNodeData)
+      singleLegendList.value.push(itemNodeData)
     }
   })
 }
@@ -69,13 +63,7 @@ const init = () => {
   // 计算高度
   const hArr: number[] = []
   // dom
-  const list: any[] = []
-  const itemList: any[] = []
-  loop(map!.value.layers, hArr, list, itemList)
-  itemListDom.value = h(singleLegend, { propList: itemList })
-  grouplistDom.value = h(groupLegend, { groupList: list })
-  groupLegendList.value = list
-  singleLegendList.value = itemList
+  loop(map!.value.layers, hArr)
   const hei = hArr.reduce((sum, cur) => {
     return sum + cur
   }, 0)
@@ -105,8 +93,11 @@ onUnmounted(() => {
     :icon="ControlIcons.Legend"
   >
     <div class="mapboxgl-legend">
-      <itemListDom v-if="singleLegendList.length > 0" />
-      <grouplistDom v-if="groupLegendList.length > 0" />
+      <singleLegend :prop-list="singleLegendList" />
+      <div className="mapboxgl-legend-group" v-for="list in groupLegendList" :key="list.title">
+        <div className="mapboxgl-legend-tilte">{{ list.title }}</div>
+        <singleLegend :prop-list="list.items" />
+      </div>
     </div>
   </BaseWidget>
 </template>

@@ -17,7 +17,7 @@ interface TMapProps {
 
 const props = defineProps<TMapProps>()
 const emit = defineEmits<{
-  (e: 'onMapLoad', map: MapWrapper): void
+  onMapLoad: [map: MapWrapper]
 }>()
 
 const mapDom = ref<HTMLDivElement | null>(null)

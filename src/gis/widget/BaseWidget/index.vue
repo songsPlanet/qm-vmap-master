@@ -19,7 +19,8 @@ export interface TWidgetOptions {
 
 const props = defineProps<TWidgetOptions>()
 const emit = defineEmits<{
-  (e: 'openHandle', value: boolean): void
+  openHandle: [value: boolean]
+
 }>()
 
 const open = ref(false)

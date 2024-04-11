@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { type LngLatLike, Popup, type PopupOptions } from 'mapbox-gl'
 import { onMounted, onUnmounted, inject, render, h, computed } from 'vue'
-
+import { type LngLatLike, Popup, type PopupOptions } from 'mapbox-gl'
 let defaultXY = {
   x: 0,
   y: 0
@@ -16,19 +15,20 @@ export type PopupEvent = {
   target: Popup
 }
 
-// export type TPopupWrapper = PopupOptions & {
-export type TPopupWrapper = {
-  lngLat: LngLatLike
-  enableDrag?: boolean
+// type TPopupWrapper =  PopupOptions& {
+type TPopupWrapper = {
+  popupOption?: PopupOptions
   title: string
   popupData: any
+  lngLat: LngLatLike
+  enableDrag?: boolean
 }
 
 const map = inject<any>('map')
 const props = defineProps<TPopupWrapper>()
 const emit = defineEmits<{
-  (e: 'closeHandle', value: PopupEvent): void
-  (e: 'openHandle', value: PopupEvent): void
+  closeHandle: [value: PopupEvent]
+  openHandle: [value: PopupEvent]
 }>()
 
 const container = computed(() => {

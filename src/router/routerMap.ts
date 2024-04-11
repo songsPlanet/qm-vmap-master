@@ -3,7 +3,10 @@ const routeMap = [
     path: '/themeMap',
     name: 'themeMap',
     title: '农业一张图',
-    component: () => import('../views/themeMap/index.vue')
+    component: () => import('../views/themeMap/index.vue'),
+    props(route:any){
+      return route.query
+    }
   },
   {
     path: '/404',

@@ -21,7 +21,7 @@ const mapOptions = {
 
 <template>
   <div class="mapContainer">
-    <MapWidget :mapOptions="mapOptions" :mapLayerSetting="mapSetting">
+    <MapWidget :map-options="mapOptions" :map-layer-setting="mapSetting">
       <PopupPanel :vector="vector" />
       <ControlPanel />
     </MapWidget>

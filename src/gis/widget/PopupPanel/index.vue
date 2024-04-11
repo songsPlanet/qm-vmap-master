@@ -3,7 +3,7 @@ import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import PopupWrapper from '@/gis/widget/PopupWrapper/index.vue'
 import mapboxgl, { type LngLatLike } from 'mapbox-gl'
 
-import { VueElement, onMounted, inject, shallowRef } from 'vue'
+import { VueElement, onMounted, inject, shallowRef, type PropType } from 'vue'
 
 export interface TPouperData {
   properties: any
@@ -71,10 +71,10 @@ onMounted(() => {
     <PopupWrapper
       v-if="popupData"
       :title="popupData.title"
-      :lngLat="popupData.lngLat"
-      :closeOnClick="false"
-      :popupData="popupData"
-      @closeHandle="onCloseHandle"
+      :lng-lat="popupData.lngLat"
+      :close-on-click="false"
+      :popup-data="popupData"
+      @close-handle="onCloseHandle"
     >
     </PopupWrapper>
   </div>

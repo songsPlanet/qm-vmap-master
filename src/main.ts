@@ -16,6 +16,7 @@ for (const i in icons) {
 }
 
 app.use(Antd)
+// 使用路由器
 app.use(router)
 
 // 设置挂载点#app
