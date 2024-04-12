@@ -1,15 +1,27 @@
+<script lang="ts" setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const clickHandle = () => {
+  router.push({
+    path: '/'
+  })
+}
+</script>
+
 <template>
   <div className="page">
     <img src="@/assets/images/404.svg" alt="" className="img" />
     <div>
       <h1 className="title“>UH OH！页面丢失"></h1>
       <p className="subtitle">您所访问的页面不存在，您可以点击下方的按钮，返回主页</p>
-      <Button ghost type="primary" className="button"> 返回首页 </Button>
+      <Button ghost type="primary" className="button" @click="clickHandle"> 返回首页 </Button>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .page {
   height: 100%;
   display: flex;

@@ -1,28 +1,27 @@
 <script setup lang="ts">
-import MapWrapper from '@/gis/mapboxgl/MapWrapper'
+import { VueElement, onMounted, inject, shallowRef } from 'vue'
 import PopupWrapper from '@/gis/widget/PopupWrapper/index.vue'
 import mapboxgl, { type LngLatLike } from 'mapbox-gl'
+import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 
-import { VueElement, onMounted, inject, shallowRef, type PropType } from 'vue'
-
-export interface TPouperData {
+export type TPouperData = {
   properties: any
   lngLat: LngLatLike
   title: string
   template: VueElement
 }
 
-interface TPopupPanel {
+type TPopupPanel = {
   vector: { id: string; title: string; template: VueElement }[]
 }
 
 const map = inject<any>('map')
 const props = defineProps<TPopupPanel>()
-const popupData = shallowRef<TPouperData | undefined>()
+const popupData = shallowRef<TPouperData | null>()
 
 const onCloseHandle = () => {
   map.value?.clearSelect()
-  popupData.value = undefined
+  popupData.value = null
 }
 
 onMounted(() => {
@@ -70,11 +69,9 @@ onMounted(() => {
   <div>
     <PopupWrapper
       v-if="popupData"
-      :title="popupData.title"
-      :lng-lat="popupData.lngLat"
-      :close-on-click="false"
-      :popup-data="popupData"
-      @close-handle="onCloseHandle"
+      :closeOnClick="false"
+      :popupData="popupData"
+      @closeHandle="onCloseHandle"
     >
     </PopupWrapper>
   </div>

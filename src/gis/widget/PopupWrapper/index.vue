@@ -1,129 +1,127 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, inject, render, h, computed } from 'vue'
-import { type LngLatLike, Popup, type PopupOptions } from 'mapbox-gl'
-let defaultXY = {
-  x: 0,
-  y: 0
-}
-let divOffset = {
-  l: 0,
-  t: 0
-}
+import { onMounted, onUnmounted, inject, ref, watch, computed } from 'vue'
+import type { TPouperData } from '../PopupPanel/index.vue'
+import { Popup } from 'mapbox-gl'
+import Compone from './index'
 
-export type PopupEvent = {
+// let defaultXY = {
+//   x: 0,
+//   y: 0
+// }
+// let divOffset = {
+//   l: 0,
+//   t: 0
+// }
+
+type PopupEvent = {
   type: 'open' | 'close'
   target: Popup
 }
 
-// type TPopupWrapper =  PopupOptions& {
 type TPopupWrapper = {
-  popupOption?: PopupOptions
-  title: string
-  popupData: any
-  lngLat: LngLatLike
+  popupData: TPouperData
   enableDrag?: boolean
+  closeOnClick: boolean
 }
 
+const popup = ref()
+const containerRef = ref()
 const map = inject<any>('map')
 const props = defineProps<TPopupWrapper>()
+
 const emit = defineEmits<{
   closeHandle: [value: PopupEvent]
   openHandle: [value: PopupEvent]
 }>()
 
-const container = computed(() => {
-  const content = document.createElement('div')
-  content.className = 'popup-content-wrap'
-  const header = document.createElement('div')
-  header.className = 'popup-header-wrap'
-  const titleDiv = document.createElement('div')
-  titleDiv.className = 'popup-title-wrap'
-  titleDiv.id = 'popup-title-wrap-id'
-  titleDiv.innerText = props.title ?? ''
-  header.appendChild(titleDiv)
-  content.appendChild(header)
-  const p = h(props.popupData.template, { data: props.popupData.properties })
-  render(p, content)
-  return content
-})
-
-const popup = computed<Popup>(() => {
+const popupComp = computed<Popup>(() => {
   const options = { ...props, maxWidth: 'none', className: 'mapboxgl-popup-wrapper' }
-  const pp = new Popup(options).setLngLat(props.lngLat)
+  const pp = new Popup(options).setLngLat(props.popupData.lngLat)
   pp.once('open', (e: any) => {
     emit('openHandle', e as PopupEvent)
   })
   return pp
 })
-
-const ppHeader = document.getElementsByClassName('popup-header-wrap')[0]
-const ppContainer = (popup.value as any)._container as HTMLElement
+popup.value = popupComp.value
+// const ppHeader = document.getElementsByClassName('popup-header-wrap')[0]
+// const ppContainer = ref((popup.value as any)._container as HTMLElement)
 
 const onCloseHandle = (e: any) => {
   emit('closeHandle', e as PopupEvent)
 }
 
-const mousedown = (e: any) => {
-  e.preventDefault() // 阻止事件默认行为
-  defaultXY = {
-    x: e.clientX,
-    y: e.clientY
-  }
-  divOffset = {
-    l: ppContainer.offsetLeft,
-    t: ppContainer.offsetTop
-  }
-  ppHeader.addEventListener('mousemove', mousemove)
-}
+// const mousedown = (e: any) => {
+//   e.preventDefault() // 阻止事件默认行为
+//   defaultXY = {
+//     x: e.clientX,
+//     y: e.clientY
+//   }
+//   divOffset = {
+//     l: ppContainer.value.offsetLeft,
+//     t: ppContainer.value.offsetTop
+//   }
+//   ppHeader.addEventListener('mousemove', mousemove)
+// }
 
-const mousemove = (e: any) => {
-  if (ppContainer) {
-    // 获取x和y
-    let nx = e.clientX
-    let ny = e.clientY
-    let nl = nx - (defaultXY.x - divOffset.l)
-    let nt = ny - (defaultXY.y - divOffset.t)
-    ppContainer.style.left = nl + 'px'
-    ppContainer.style.top = nt + 'px'
-  }
-}
+// const mousemove = (e: any) => {
+//   if (ppContainer) {
+//     // 获取x和y
+//     let nx = e.clientX
+//     let ny = e.clientY
+//     let nl = nx - (defaultXY.x - divOffset.l)
+//     let nt = ny - (defaultXY.y - divOffset.t)
+//     ppContainer.value.style.left = nl + 'px'
+//     ppContainer.value.style.top = nt + 'px'
+//   }
+// }
 
-const mouseup = () => {
-  ppHeader.removeEventListener('mousemove', mousemove)
-}
+// const mouseup = () => {
+//   ppHeader.removeEventListener('mousemove', mousemove)
+// }
 
 onMounted(() => {
   popup.value.on('close', onCloseHandle)
-  map.value && popup.value.setDOMContent(container.value).addTo(map.value)
-
+  map.value && popup.value.setDOMContent(containerRef.value).addTo(map.value)
   if (props.enableDrag) {
-    ppHeader.addEventListener('mousedown', mousedown)
-    ppHeader.addEventListener('mouseup', mouseup)
+    // ppHeader.addEventListener('mousedown', mousedown)
+    // ppHeader.addEventListener('mouseup', mouseup)
   }
 })
 
-onMounted(() => {
-  if (popup.value.isOpen()) {
-    popup.value.setLngLat(props.lngLat)
-  }
-})
+watch(
+  () => props.popupData,
+  () => {
+    popup.value.on('close', onCloseHandle)
+    if (popup.value.isOpen()) {
+      popup.value.setLngLat(props.popupData.lngLat)
+    }
 
-onMounted(() => {
-  const titleElem = document.getElementById('popup-title-wrap-id')
-  titleElem!.innerText = props.title
-})
+    const titleElem = document.getElementById('popup-title-wrap-id')
+    titleElem!.innerText = props.popupData.title
+  },
+  { deep: true }
+)
 
 onUnmounted(() => {
   popup.value.off('close', onCloseHandle)
-  ppHeader?.removeEventListener('mousedown', mousedown)
-  ppHeader?.removeEventListener('mouseup', mouseup)
+  // ppHeader?.removeEventListener('mousedown', mousedown)
+  // ppHeader?.removeEventListener('mouseup', mouseup)
   if (popup.value.isOpen()) {
     popup.value.remove()
   }
 })
 </script>
 
-<template></template>
+<template>
+  <Teleport to="body">
+    <div class="popup-content-wrap" ref="containerRef">
+      <div class="popup-header-wrap">
+        <div class="popup-title-wrap" id="popup-title-wrap-id"></div>
+      </div>
+      <Compone :template="popupData?.template" :data="popupData?.properties" />
+    </div>
+  </Teleport>
+</template>
 
 <style lang="less">
 @import './index.less';

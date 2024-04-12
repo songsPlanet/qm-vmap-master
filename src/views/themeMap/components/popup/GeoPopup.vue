@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Descriptions } from 'ant-design-vue'
 interface TWidgetOptions {
-  data?: any
+  data: any
 }
 const props = defineProps<TWidgetOptions>()
 const fieldMap = [
