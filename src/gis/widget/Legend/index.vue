@@ -3,13 +3,16 @@ import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
 import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
-import { onMounted, ref, onUnmounted, inject } from 'vue'
+import { onMounted, ref, onUnmounted } from 'vue'
 import { MapEvent } from '@/gis/mapboxgl/typings'
-import { debounce } from '@/gis/utils'
+import { useMapStore } from '@/store/useMapStore'
 import singleLegend from './singleLegend.vue'
+import { debounce } from '@/gis/utils'
+import './index.less'
 
 const baseHeight = ref(200)
-const map = inject<any>('map')
+const mapStore = useMapStore()
+const map = mapStore.map
 const groupLegendList = ref<any[]>([])
 const singleLegendList = ref<any[]>([])
 const props = defineProps<TWidgetPosition>()
@@ -41,7 +44,7 @@ const loop = (layers: Array<LayerWrapper | LayerGroupWrapper>, hArr: number[]) =
       } else {
         // 单个图例
         const { style, imageId, text } = layer.options.legend
-        const img = map?.value.images.find((f: any) => f.id === imageId)
+        const img = map?.images.find((f: any) => f.id === imageId)
         const titleName = text ? text : layer.options.name
         itemNodeData = { text: titleName, style, img }
         hArr.push(26)
@@ -63,7 +66,7 @@ const init = () => {
   // 计算高度
   const hArr: number[] = []
   // dom
-  loop(map!.value.layers, hArr)
+  loop(map!.layers, hArr)
   const hei = hArr.reduce((sum, cur) => {
     return sum + cur
   }, 0)
@@ -75,12 +78,12 @@ const mapLayerChangedHandle = debounce(() => {
 }, 200)
 
 onMounted(() => {
-  map?.value?.on(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
+  map?.on(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
   init()
 })
 
 onUnmounted(() => {
-  map?.value?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
+  map?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
 })
 </script>
 
@@ -101,7 +104,3 @@ onUnmounted(() => {
     </div>
   </BaseWidget>
 </template>
-
-<style scoped lang="less">
-@import './index.less';
-</style>

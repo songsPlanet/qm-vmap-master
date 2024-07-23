@@ -22,12 +22,12 @@ class PolylineMeasure {
     this.uuid = this.generateId();
     this.map = map;
     this.isMeasure = false;
-    let polylinePointsSourceId = 'polylinePointsSource' + this.uuid;
-    let polylinePointsLayerId = 'polylinePointsLayer' + this.uuid;
-    let polylineLinesSourceId = 'polylineLines' + this.uuid;
-    let polylineLinesLayerId = 'polylineLinesLayer' + this.uuid;
-    let polylineMovelinesSourceId = 'polylineMovelinesSource' + this.uuid;
-    let polylineMovelinesLayerId = 'polylineMovelinesLayer' + this.uuid;
+    const polylinePointsSourceId = 'polylinePointsSource' + this.uuid;
+    const polylinePointsLayerId = 'polylinePointsLayer' + this.uuid;
+    const polylineLinesSourceId = 'polylineLines' + this.uuid;
+    const polylineLinesLayerId = 'polylineLinesLayer' + this.uuid;
+    const polylineMovelinesSourceId = 'polylineMovelinesSource' + this.uuid;
+    const polylineMovelinesLayerId = 'polylineMovelinesLayer' + this.uuid;
     this.map.addSource(polylinePointsSourceId, {
       type: 'geojson',
       data: this.jsonPoint,
@@ -94,10 +94,10 @@ class PolylineMeasure {
   }
 
   addPoint = (coords: any) => {
-    let polylinePointsSourceId = 'polylinePointsSource' + this.uuid;
-    let polylineLinesSourceId = 'polylineLines' + this.uuid;
+    const polylinePointsSourceId = 'polylinePointsSource' + this.uuid;
+    const polylineLinesSourceId = 'polylineLines' + this.uuid;
     if (this.jsonPoint.features.length > 0) {
-      let prev = this.jsonPoint.features[this.jsonPoint.features.length - 1];
+      const prev = this.jsonPoint.features[this.jsonPoint.features.length - 1];
       this.jsonLine.features.push({
         type: 'Feature',
         geometry: {
@@ -118,8 +118,8 @@ class PolylineMeasure {
   };
 
   getLength = (coords: any) => {
-    let _points = this.points.concat([coords]);
-    let line = lineString(_points);
+    const _points = this.points.concat([coords]);
+    const line = lineString(_points);
     let len: any = length(line);
     if (len < 1) {
       len = Math.round(len * 1000) + 'm';
@@ -134,13 +134,13 @@ class PolylineMeasure {
     ele.setAttribute('class', 'measureResult');
 
     ele.innerHTML = this.points.length === 0 ? '起点' : this.getLength(coords);
-    let marker = new Marker({ element: ele, anchor: 'left', offset: [8, 0] }).setLngLat(coords).addTo(this.map);
+    const marker = new Marker({ element: ele, anchor: 'left', offset: [8, 0] }).setLngLat(coords).addTo(this.map);
     this.markers.push(marker);
   };
 
   mapClickHandle = (e: any) => {
     if (this.isMeasure) {
-      let coords = [e.lngLat.lng, e.lngLat.lat];
+      const coords = [e.lngLat.lng, e.lngLat.lat];
       this.addMeasureRes(coords);
       this.addPoint(coords);
       this.points.push(coords);
@@ -148,12 +148,12 @@ class PolylineMeasure {
   };
 
   mapMouseMoveHandle = (e: any) => {
-    let polylineMovelinesSourceId = 'polylineMovelinesSource' + this.uuid;
+    const polylineMovelinesSourceId = 'polylineMovelinesSource' + this.uuid;
     if (this.isMeasure) {
-      let coords = [e.lngLat.lng, e.lngLat.lat];
+      const coords = [e.lngLat.lng, e.lngLat.lat];
       if (this.jsonPoint.features.length > 0) {
-        let prev = this.jsonPoint.features[this.jsonPoint.features.length - 1];
-        let json = {
+        const prev = this.jsonPoint.features[this.jsonPoint.features.length - 1];
+        const json = {
           type: 'Feature',
           geometry: {
             type: 'LineString',
@@ -171,7 +171,7 @@ class PolylineMeasure {
 
   mapDbclickHandle = (e: any) => {
     if (this.isMeasure) {
-      let coords: any = [e.lngLat.lng, e.lngLat.lat];
+      const coords: any = [e.lngLat.lng, e.lngLat.lat];
       this.addPoint(coords);
       this.isMeasure = false;
       this.map.getCanvas().style.cursor = '';
@@ -183,7 +183,7 @@ class PolylineMeasure {
       ele.setAttribute('class', 'measureResultClose');
 
       ele.innerHTML = 'x';
-      let closeMarker = new Marker({
+      const closeMarker = new Marker({
         element: ele,
         anchor: 'bottom-left',
         offset: [-5, -10],
@@ -216,13 +216,13 @@ class PolylineMeasure {
   clearMeasure() {
     this.map.doubleClickZoom.enable();
     this.map.getCanvas().style.cursor = 'pointer';
-    let polylinePointsSourceId = 'polylinePointsSource' + this.uuid;
-    let polylinePointsLayerId = 'polylinePointsLayer' + this.uuid;
-    let polylineLinesSourceId = 'polylineLines' + this.uuid;
-    let polylineLinesLayerId = 'polylineLinesLayer' + this.uuid;
-    let polylineMovelinesSourceId = 'polylineMovelinesSource' + this.uuid;
-    let polylineMovelinesLayerId = 'polylineMovelinesLayer' + this.uuid;
-    let source = this.map.getSource(polylinePointsSourceId);
+    const polylinePointsSourceId = 'polylinePointsSource' + this.uuid;
+    const polylinePointsLayerId = 'polylinePointsLayer' + this.uuid;
+    const polylineLinesSourceId = 'polylineLines' + this.uuid;
+    const polylineLinesLayerId = 'polylineLinesLayer' + this.uuid;
+    const polylineMovelinesSourceId = 'polylineMovelinesSource' + this.uuid;
+    const polylineMovelinesLayerId = 'polylineMovelinesLayer' + this.uuid;
+    const source = this.map.getSource(polylinePointsSourceId);
     if (source) {
       this.map.removeLayer(polylinePointsLayerId);
       this.map.removeLayer(polylineLinesLayerId);

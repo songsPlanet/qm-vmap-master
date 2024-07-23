@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { type TMapLayerSetting } from '@/gis/mapboxgl/typings/TLayerOptions'
-import { onMounted, onUnmounted, ref, provide } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import { type MapboxOptions } from 'mapbox-gl'
 import { debounce } from '@/gis/utils'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { cloneDeep } from 'lodash'
+import { useMapStore } from '@/store/useMapStore'
 
 interface TMapProps {
   mapOptions: MapboxOptions & {
@@ -22,14 +23,14 @@ const emit = defineEmits<{
 
 const mapDom = ref<HTMLDivElement | null>(null)
 const mapInit = ref<boolean>(false)
-const map = ref<MapWrapper | null>()
-provide('map', map)
+const mapStore = useMapStore()
 
 const loadLayers = (mapload: any) => {
   mapload.load(cloneDeep(props.mapLayerSetting))
   mapInit.value = true
   emit('onMapLoad', mapload)
-  map.value = mapload
+  // map.value = mapload
+  mapStore.updata(mapload)
 }
 
 onMounted(() => {
@@ -63,13 +64,13 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  map?.value?.off('load', () => loadLayers(map.value))
+  mapStore.map?.off('load', () => loadLayers(mapStore.map))
 })
 </script>
 
 <template>
   <div ref="mapDom" :class="[props.className ? props.className : 'map-wrapper']" id="map-wrapper">
-    <slot v-if="mapInit && map"></slot>
+    <slot v-if="mapInit && mapStore.map"></slot>
   </div>
 </template>
 

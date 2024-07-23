@@ -2,14 +2,17 @@
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
 import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
-import { onMounted, ref, watch, onUnmounted, inject } from 'vue'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
+import { onMounted, ref, watch, onUnmounted } from 'vue'
 import { MapEvent } from '@/gis/mapboxgl/typings'
 import type { TreeProps } from 'ant-design-vue'
+import { useMapStore } from '@/store/useMapStore'
 import { debounce } from '@/gis/utils'
 
 const props = defineProps<TWidgetPosition>()
-const map = inject<any>('map')
+const mapStore = useMapStore()
+const map = mapStore.map
+
 const keys = ref<string[]>([])
 const data = ref<TreeProps[]>([])
 const baseHeight = ref<number>(280)
@@ -70,33 +73,33 @@ const checkedHandle = (checkedKeys: any, oldKeys: any) => {
   const delKeys = new Set([...union].filter((x) => !checkedKeys.includes(x)))
 
   addKeys.forEach((key: string) => {
-    const lyr = map.value?.getLayerWrapper(map.value.layers, key)
+    const lyr = map?.getLayerWrapper(map.layers, key)
     if (lyr && 'layers' in lyr) {
       lyr.layers.forEach((d: any) => {
         d.options.isAdd = true
       })
-      map.value?.addLayerWrapper(lyr)
+      map?.addLayerWrapper(lyr)
     } else if (lyr) {
       lyr.options.isAdd = true
-      map.value?.addLayerWrapper(lyr)
+      map?.addLayerWrapper(lyr)
     }
   })
 
   delKeys.forEach((key: any) => {
-    const lyr = map.value?.getLayerWrapper(map.value.layers, key)
+    const lyr = map?.getLayerWrapper(map.layers, key)
     if (lyr && 'layers' in lyr) {
       lyr.layers.forEach((d: any) => {
         d.options.isAdd = false
       })
-      map.value?.removeLayerWrapper(lyr)
+      map?.removeLayerWrapper(lyr)
     } else if (lyr) {
       lyr.options.isAdd = false
-      map.value?.removeLayerWrapper(lyr)
+      map?.removeLayerWrapper(lyr)
     }
   })
 
   // 修正logicGroup isAdd属性
-  map.value!.layers.forEach((layer: any) => {
+  map!.layers.forEach((layer: any) => {
     modifyMapLayers(layer)
   })
 }
@@ -116,7 +119,7 @@ const modifyMapLayers = (layer: LayerWrapper | LayerGroupWrapper) => {
 }
 const init = () => {
   const loadkeys: string[] = []
-  const treeData = map.value ? loop(map.value.layers, loadkeys) : []
+  const treeData = map ? loop(map.layers, loadkeys) : []
   data.value = treeData
   keys.value = loadkeys
 }
@@ -125,12 +128,12 @@ const mapLayerChangedHandle = debounce(() => {
 }, 300)
 
 onMounted(() => {
-  map.value?.on(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
+  map?.on(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
   init()
 })
 
 onUnmounted(() => {
-  map.value?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
+  map?.off(MapEvent.MAPLAYERCHANGED, mapLayerChangedHandle)
 })
 </script>
 

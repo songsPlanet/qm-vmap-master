@@ -5,11 +5,13 @@ import LayerList from '@/gis/widget/LayerList/index.vue'
 import MapWidget from '@/gis/widget/MapWidget/index.vue'
 import 'mapbox-gl-compare/dist/mapbox-gl-compare.css'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
-import { inject, ref, watch } from 'vue'
+import { useMapStore } from '@/store/useMapStore'
+import { ref, watch } from 'vue'
 import Compare from 'mapbox-gl-compare'
 
 const props = defineProps<TWidgetPosition>()
-const map = inject<any>('map')
+const mapStore = useMapStore()
+
 const compare = ref<any>(null)
 const open = ref<boolean>(false)
 const beforeMap = ref<MapWrapper | null>(null)
@@ -35,10 +37,14 @@ watch([beforeMap, afterMap], (value) => {
         orientation: 'vertical'
       })
     }
-    newBeforeMap.setCenter(map!.value.getCenter())
-    newBeforeMap.setZoom(map!.value.getZoom())
-    newBeforeMap.setBearing(map!.value.getBearing())
-    newAfterMap.setPitch(map!.value.getPitch())
+    // newBeforeMap.setCenter(map!.value.getCenter())
+    // newBeforeMap.setZoom(map!.value.getZoom())
+    // newBeforeMap.setBearing(map!.value.getBearing())
+    // newAfterMap.setPitch(map!.value.getPitch())
+    newBeforeMap.setCenter(mapStore.map!.getCenter())
+    newBeforeMap.setZoom(mapStore.map!.getZoom())
+    newBeforeMap.setBearing(mapStore.map!.getBearing())
+    newAfterMap.setPitch(mapStore.map!.getPitch())
   }
 })
 </script>
@@ -61,20 +67,20 @@ watch([beforeMap, afterMap], (value) => {
     >
       <div id="swipeContainer" class="mapboxgl-swipe">
         <MapWidget
-          :map-options="{ ...map!.options, id: 'swipeBeforeMap' }"
-          :map-layer-setting="map!.mapLayerSetting"
+          :map-options="{ ...mapStore.map!.options, id: 'swipeBeforeMap' }"
+          :map-layer-setting="mapStore.map!.mapLayerSetting"
           @on-map-load="onBeforeMapLoadHandle"
           class-name="swipe-map-container"
         >
-          <LayerList :position="{ top: '10px', left: '10px' }"></LayerList>
+          <LayerList :position="{ top: 10, left: 10 }"></LayerList>
         </MapWidget>
         <MapWidget
-          :map-options="{ ...map!.options, id: 'swipeAfterMap' }"
-          :map-layer-setting="map!.mapLayerSetting"
+          :map-options="{ ...mapStore.map!.options, id: 'swipeAfterMap' }"
+          :map-layer-setting="mapStore.map!.mapLayerSetting"
           @on-map-load="onAftherMapLoadHandle"
           class-name="swipe-map-container"
         >
-          <LayerList :position="{ top: '10px', right: '10px' }"></LayerList>
+          <LayerList :position="{ top: 10, right: 10 }"></LayerList>
         </MapWidget>
       </div>
     </a-modal>

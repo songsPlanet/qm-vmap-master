@@ -20,7 +20,6 @@ export interface TWidgetOptions {
 const props = defineProps<TWidgetOptions>()
 const emit = defineEmits<{
   openHandle: [value: boolean]
-
 }>()
 
 const open = ref(false)
@@ -31,7 +30,10 @@ const btnStyle = ref({
 const controlstyle = computed(() => ({
   width: `${open.value ? props.width ?? 30 : 30}px`,
   height: `${open.value ? props.height ?? 30 : 30}px`,
-  ...props.position
+  top: `${props.position.top}px`,
+  bottom: `${props.position.bottom}px`,
+  left: `${props.position.left}px`,
+  right: `${props.position.right}px`
 }))
 
 const onClickHandle = () => {

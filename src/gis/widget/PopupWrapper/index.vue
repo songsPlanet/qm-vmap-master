@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, inject, ref, watch, computed } from 'vue'
+import { onMounted, onUnmounted, ref, watch, computed } from 'vue'
 import type { TPouperData } from '../PopupPanel/index.vue'
 import { Popup } from 'mapbox-gl'
 import Compone from './index'
+import { useMapStore } from '@/store/useMapStore'
 
 type PopupEvent = {
   type: 'open' | 'close'
@@ -17,7 +18,7 @@ type TPopupWrapper = {
 
 const popup = ref()
 const containerRef = ref()
-const map = inject<any>('map')
+const { map } = useMapStore()
 const props = defineProps<TPopupWrapper>()
 const emit = defineEmits<{
   closeHandle: [value: PopupEvent]
@@ -49,7 +50,7 @@ const updataPop = () => {
 onMounted(() => {
   popup.value.on('close', onCloseHandle)
   updataPop()
-  map.value && popup.value.setDOMContent(containerRef.value).addTo(map.value)
+  map && popup.value.setDOMContent(containerRef.value).addTo(map)
 })
 
 watch(

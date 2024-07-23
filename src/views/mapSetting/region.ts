@@ -21,7 +21,8 @@ regionConfig.forEach((d) => {
       type: 'vector',
       maxzoom: 14,
       bounds: [115.241236, 33.006001, 115.528891, 33.524924],
-      tiles: [`http://192.168.5.2:20000/tileserver/data/jieshou_region/{z}/{x}/{y}.pbf`],
+      // tiles: [`http://192.168.5.2:20000/tileserver/data/jieshou_region/{z}/{x}/{y}.pbf`],
+      tiles: [`http://120.26.225.92:8090/data/jieshou_region/{z}/{x}/{y}.pbf`],
     },
     'source-layer': d.lyr,
   });

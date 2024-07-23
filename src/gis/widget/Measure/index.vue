@@ -3,22 +3,23 @@ import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.
 import { PolylineMeasure } from '@/gis/mapboxgl/graphic/PolylineMeasure'
 import { PolygonMeasure } from '@/gis/mapboxgl/graphic/PolygonMeasure'
 import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
+import { useMapStore } from '@/store/useMapStore'
 import { Space, Button } from 'ant-design-vue'
-import { inject } from 'vue'
+import './index.less'
 
-const map = inject<any>('map')
+const { map } = useMapStore()
 const props = defineProps<TWidgetPosition>()
 
 const polylineMeasureHandle = () => {
-  if (map.value !== null) {
-    let polylineMeasure = new PolylineMeasure(map.value)
+  if (map !== null) {
+    let polylineMeasure = new PolylineMeasure(map)
     polylineMeasure.start()
   }
 }
 
 const polygonMeasureHandle = () => {
-  if (map.value !== null) {
-    let polygonMeasure = new PolygonMeasure(map.value)
+  if (map !== null) {
+    let polygonMeasure = new PolygonMeasure(map)
     polygonMeasure.start()
   }
 }
@@ -40,7 +41,3 @@ const polygonMeasureHandle = () => {
     </div>
   </BaseWidget>
 </template>
-
-<style scoped lang="less">
-@import './index.less';
-</style>
