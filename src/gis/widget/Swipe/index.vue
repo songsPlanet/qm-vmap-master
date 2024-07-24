@@ -37,10 +37,6 @@ watch([beforeMap, afterMap], (value) => {
         orientation: 'vertical'
       })
     }
-    // newBeforeMap.setCenter(map!.value.getCenter())
-    // newBeforeMap.setZoom(map!.value.getZoom())
-    // newBeforeMap.setBearing(map!.value.getBearing())
-    // newAfterMap.setPitch(map!.value.getPitch())
     newBeforeMap.setCenter(mapStore.map!.getCenter())
     newBeforeMap.setZoom(mapStore.map!.getZoom())
     newBeforeMap.setBearing(mapStore.map!.getBearing())

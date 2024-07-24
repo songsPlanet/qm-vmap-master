@@ -6,8 +6,12 @@ import GeoPopup from './components/Popup/GeoPopup.vue'
 import { wh_sy_geo } from '../mapSetting/wh_sy_geo'
 import { type LngLatLike } from 'mapbox-gl'
 import mapSetting from './mapSetting'
+import { field_vt } from '../mapSetting/field_vt'
+import FieldPopup from './components/Popup/FieldPopup.vue'
 
-const vector = [{ id: wh_sy_geo.id, title: wh_sy_geo.name, template: GeoPopup }]
+const vector = [{ id: wh_sy_geo.id, title: wh_sy_geo.name, slotComponent: GeoPopup },
+  { id: field_vt.id, title: field_vt.name, slotComponent: FieldPopup }
+]
 
 const mapOptions = {
   id: 'themeMap',

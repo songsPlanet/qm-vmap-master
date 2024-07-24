@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Descriptions } from 'ant-design-vue'
+import { ref } from 'vue'
 interface TWidgetOptions {
   data: any
 }
 const props = defineProps<TWidgetOptions>()
-const fieldMap = [
+const fieldMap = ref([
   {
     name: 'dkbm',
     text: '地块编码'
@@ -23,7 +24,7 @@ const fieldMap = [
     text: '行政区划',
     func: () => `${props.data['sjxzqh']}-${props.data['xjxzqh']}`
   }
-]
+])
 </script>
 
 <template>
@@ -33,5 +34,3 @@ const fieldMap = [
     </Descriptions.Item>
   </Descriptions>
 </template>
-
-<style></style>
