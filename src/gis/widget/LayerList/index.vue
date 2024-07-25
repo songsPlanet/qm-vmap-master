@@ -2,7 +2,8 @@
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
 import type LayerGroupWrapper from '@/gis/mapboxgl/layer/LayerGroupWrapper'
 import type LayerWrapper from '@/gis/mapboxgl/layer/LayerWrapper'
-import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
+import { ControlIcons } from '@/gis/widget/constant'
+
 import { onMounted, ref, watch, onUnmounted } from 'vue'
 import { MapEvent } from '@/gis/mapboxgl/typings'
 import type { TreeProps } from 'ant-design-vue'

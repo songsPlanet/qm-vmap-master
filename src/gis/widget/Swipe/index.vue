@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
-import { ControlIcons } from '@/gis/widget/BaseWidget/icon'
 import LayerList from '@/gis/widget/LayerList/index.vue'
 import MapWidget from '@/gis/widget/MapWidget/index.vue'
 import 'mapbox-gl-compare/dist/mapbox-gl-compare.css'
+import { ControlIcons } from '@/gis/widget/constant'
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import { useMapStore } from '@/store/useMapStore'
 import { ref, watch } from 'vue'
