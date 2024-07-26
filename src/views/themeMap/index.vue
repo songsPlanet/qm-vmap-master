@@ -9,6 +9,7 @@ import { field_vt } from '../mapSetting/field_vt'
 import { mapOptions } from '@/gis/widget/constant'
 import mapSetting from './mapSetting'
 import './index.less'
+import ToolPanel from './components/ToolPanel.vue'
 
 const vector = [
   { id: wh_sy_geo.id, title: wh_sy_geo.name, slotComponent: GeoPopup },
@@ -21,6 +22,7 @@ const vector = [
     <MapWidget :map-options="mapOptions" :map-layer-setting="mapSetting">
       <PopupPanel :vector="vector" />
       <ControlPanel />
+      <ToolPanel />
     </MapWidget>
   </div>
 </template>

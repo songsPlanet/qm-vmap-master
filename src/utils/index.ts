@@ -100,27 +100,27 @@ export function isEmpty(data: null | undefined | object | Array<any> | Map<any, 
 //   return true;
 // }
 
-// /**
-//  * 防抖
-//  * @param func        防抖的方法
-//  * @param delay       防抖的时间间隔
-//  * @param immediately 是否立即执行 func
-//  * @returns
-//  */
-// export function debounce(func: Function, delay: number, immediately = false) {
-//   let interval: any = null;
-//   return function (...args: any[]) {
-//     if (immediately) {
-//       if (!interval) func(...args);
+/**
+ * 防抖
+ * @param func        防抖的方法
+ * @param delay       防抖的时间间隔
+ * @param immediately 是否立即执行 func
+ * @returns
+ */
+export function debounce(func: Function, delay: number, immediately = false) {
+  let interval: any = null
+  return function (...args: any[]) {
+    if (immediately) {
+      if (!interval) func(...args)
 
-//       interval && clearTimeout(interval);
-//       interval = setTimeout(() => (interval = null), delay);
-//     } else {
-//       clearTimeout(interval);
-//       interval = setTimeout(() => func(...args), delay);
-//     }
-//   };
-// }
+      interval && clearTimeout(interval)
+      interval = setTimeout(() => (interval = null), delay)
+    } else {
+      clearTimeout(interval)
+      interval = setTimeout(() => func(...args), delay)
+    }
+  }
+}
 
 // /**
 //  * 节流
@@ -196,10 +196,10 @@ export function isEmpty(data: null | undefined | object | Array<any> | Map<any, 
 //   }
 // }
 
-// export function getLocalStorage(key: string) {
-//   let value = window.localStorage.getItem(key);
-//   return value ? JSON.parse(value) : null;
-// }
+export function getLocalStorage(key: string) {
+  const value = window.localStorage.getItem(key)
+  return value ? JSON.parse(value) : null
+}
 
 // /**
 //  * 数字格式化，toFixed(990000000, 10000, 2) => 99000.00(单位：万)

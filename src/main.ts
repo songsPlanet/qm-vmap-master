@@ -5,7 +5,7 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/reset.css'
 import * as Icons from '@ant-design/icons-vue'
 import { createPinia } from 'pinia'
-
+import './mock/index'
 // new Vue()创建实例=》变成 createApp（）
 // 将创建实例进行的封装
 const app = createApp(App as any)
