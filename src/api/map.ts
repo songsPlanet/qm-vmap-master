@@ -33,3 +33,8 @@ export const queryRegionFeature = (code: any) => {
 
 //  区域列表
 export const queryRegionList = (query: any = {}) => request.post('/v1.0/chinaProvince/region', query);
+
+// 获取统计结果
+export const queryStatisticResult = (query: any) => {
+  return request.post(`/v1.0/statistic/getStatistic`, query);
+};

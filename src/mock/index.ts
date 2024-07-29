@@ -17,6 +17,32 @@ Mock.mock('/v1.0/xxnyjyzt/getXxjyztList', 'post', {
   ]
 })
 
+// 空间统计
+Mock.mock('/v1.0/statistic/getStatistic', 'post', {
+  code: 0,
+  message: '操作成功',
+  data: {
+    regionName: '安徽省',
+    regionCode: '34',
+    area: 200.11,
+    queryType: '确权地块',
+    areaList: [
+      {
+        regionName: '永乐镇',
+        regionCode: '430381202',
+        area: 80.11,
+        areaList: []
+      },
+      {
+        regionName: '芦村镇',
+        regionCode: '430381203',
+        area: 120,
+        areaList: []
+      }
+    ]
+  }
+})
+
 Mock.mock('/v1.0/sysDict/list', 'post', {
   code: 0,
   message: '操作成功',

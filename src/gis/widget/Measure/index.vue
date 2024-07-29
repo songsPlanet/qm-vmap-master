@@ -3,7 +3,6 @@ import BaseWidget, { type TWidgetPosition } from '@/gis/widget/BaseWidget/index.
 import { PolylineMeasure } from '@/gis/mapboxgl/graphic/PolylineMeasure'
 import { PolygonMeasure } from '@/gis/mapboxgl/graphic/PolygonMeasure'
 import { ControlIcons } from '@/gis/widget/constant'
-
 import { useMapStore } from '@/store/useMapStore'
 import { Space, Button } from 'ant-design-vue'
 import './index.less'

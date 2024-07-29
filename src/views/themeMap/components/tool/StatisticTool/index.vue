@@ -4,7 +4,7 @@ import { ref, h } from 'vue'
 import { UserOutlined } from '@ant-design/icons-vue'
 import { Drawer } from 'ant-design-vue'
 import ToolWidget from '@/gis/widget/ToolWidget/index.vue'
-import StatisticContent  from './StatisticContent.vue'
+import StatisticContent from './StatisticContent.vue'
 
 interface TPanelWidget {
   position: TWidgetPosition
@@ -38,7 +38,7 @@ const onCloseHandle = () => {
       destroyOnClose
       @close="onCloseHandle"
       :open="open"
-      width="400"
+      width="auto"
     >
       <component v-if="open" :is="StatisticContent"> </component>
     </Drawer>
