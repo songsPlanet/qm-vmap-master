@@ -2622,6 +2622,14 @@
   "resolved" "https://registry.npmmirror.com/earcut/-/earcut-2.2.4.tgz"
   "version" "2.2.4"
 
+"echarts@^5.5.1":
+  "integrity" "sha512-Fce8upazaAXUVUVsjgV6mBnGuqgO+JNDlcgF79Dksy4+wgGpQB2lmYoO4TSweFg/mZITdpGHomw/cNBJZj1icA=="
+  "resolved" "https://registry.npmjs.org/echarts/-/echarts-5.5.1.tgz"
+  "version" "5.5.1"
+  dependencies:
+    "tslib" "2.3.0"
+    "zrender" "5.6.0"
+
 "electron-to-chromium@^1.4.668":
   "integrity" "sha512-hRg81qzvUEibX2lDxnFlVCHACa+LtrCPIsWAxo161LDYIB3jauf57RGsMZV9mvGwE98yGH06icj3zBEoOkxd/w=="
   "resolved" "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.711.tgz"
@@ -4552,6 +4560,11 @@
   "resolved" "https://registry.npmmirror.com/tslib/-/tslib-2.6.2.tgz"
   "version" "2.6.2"
 
+"tslib@2.3.0":
+  "integrity" "sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz"
+  "version" "2.3.0"
+
 "turf-along@^3.0.12":
   "integrity" "sha512-9wHa3LiqsdEExCuPgw8O5fJzqeL4lf8srBBfjGid2Tjh2nwuqgkcFZxzbnLE0Y8oFh60iNJUdccGuJSTJ3YGyg=="
   "resolved" "https://registry.npmmirror.com/turf-along/-/turf-along-3.0.12.tgz"
@@ -5268,3 +5281,10 @@
   "integrity" "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="
   "resolved" "https://registry.npmmirror.com/yocto-queue/-/yocto-queue-0.1.0.tgz"
   "version" "0.1.0"
+
+"zrender@5.6.0":
+  "integrity" "sha512-uzgraf4njmmHAbEUxMJ8Oxg+P3fT04O+9p7gY+wJRVxo8Ge+KmYv0WJev945EH4wFuc4OY2NLXz46FZrWS9xJg=="
+  "resolved" "https://registry.npmjs.org/zrender/-/zrender-5.6.0.tgz"
+  "version" "5.6.0"
+  dependencies:
+    "tslib" "2.3.0"

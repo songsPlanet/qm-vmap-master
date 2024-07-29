@@ -1,7 +1,7 @@
 import MapWrapper from '@/gis/mapboxgl/MapWrapper'
 import { defineStore } from 'pinia'
 
-export const useMapStore :any= defineStore('mapContext', {
+export const useMapStore :any= defineStore('mapStore', {
   state: () => ({
     map: null as MapWrapper | null // 明确指定map的类型为MapWrapper或null
   }),

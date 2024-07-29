@@ -23,3 +23,13 @@ export const getXxjyztListDetailApi = (id: string, tableName: string) => {
 export const getSearchLayerListApi = (dictTypeCode: 'table_name') => {
   return request.post(`/v1.0/sysDict/list`, { dictTypeCode })
 }
+
+
+// 获取行政区域geojson
+export const queryRegionFeature = (code: any) => {
+  return request.post(`/v1.0/geojson/getqueryRegionFeature`, code);
+};
+
+
+//  区域列表
+export const queryRegionList = (query: any = {}) => request.post('/v1.0/chinaProvince/region', query);

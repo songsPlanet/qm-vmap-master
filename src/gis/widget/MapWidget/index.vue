@@ -29,7 +29,6 @@ const loadLayers = (mapload: any) => {
   mapload.load(cloneDeep(props.mapLayerSetting))
   mapInit.value = true
   emit('onMapLoad', mapload)
-  // map.value = mapload
   mapStore.updata(mapload)
 }
 

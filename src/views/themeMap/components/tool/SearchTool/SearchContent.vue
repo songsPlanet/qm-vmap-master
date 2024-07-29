@@ -6,7 +6,6 @@ import { useMapStore } from '@/store/useMapStore'
 import { getFeatureBoundingBox } from '@/gis/utils'
 import GeoMap from './GeoMap.vue'
 import { debounce } from '@/utils'
-import { SearchOutlined } from '@ant-design/icons-vue'
 
 interface TField {
   fzr: string

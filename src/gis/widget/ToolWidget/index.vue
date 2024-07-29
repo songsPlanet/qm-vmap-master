@@ -7,6 +7,7 @@ import './index.less'
 interface TPanelWidget {
   position: TWidgetPosition
   isOpenHandle?: boolean
+  title:string
   icon: any
 }
 
@@ -36,7 +37,7 @@ const onClickHandle = () => {
 <template>
   <div>
     <Button :style="controlstyle" class="btn" :icon="props.icon" @click="onClickHandle">
-      人员搜索
+     {{ props.title }}
     </Button>
     <slot v-if="open"></slot>
   </div>

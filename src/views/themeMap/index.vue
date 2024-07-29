@@ -10,11 +10,22 @@ import { mapOptions } from '@/gis/widget/constant'
 import mapSetting from './mapSetting'
 import './index.less'
 import ToolPanel from './components/ToolPanel.vue'
+import { onMounted } from 'vue'
+import { queryRegionList } from '@/api/map'
+import { useRegionStore } from '@/store/useRegionStore'
 
 const vector = [
   { id: wh_sy_geo.id, title: wh_sy_geo.name, slotComponent: GeoPopup },
   { id: field_vt.id, title: field_vt.name, slotComponent: FieldPopup }
 ]
+
+const useRegin = useRegionStore()
+
+onMounted(() => {
+  queryRegionList({ level: 5 }).then((res: any) => {
+    useRegin.loadRgion(res.data)
+  })
+})
 </script>
 
 <template>
