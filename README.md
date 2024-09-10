@@ -1,64 +1,74 @@
-# vue-project
+# qm-vmap
 
-This template should help get you started developing with Vue 3 in Vite.
+qm-vmap 是一款基于 React、Mapboxgl 的地图组件
 
-## Recommended IDE Setup
+## 安装
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+使用 npm 或 yarn 安装
 
-## Type Support for `.vue` Imports in TS
+```bash
+npm install qm-vmap
+yarn add qm-vmap
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
 ```
 
-### Compile and Hot-Reload for Development
+## 依赖
 
-```sh
-npm run dev
+qm-vmap 开发依赖于mapbox-gl,turf.js 库
+
+## 初始化使用
+
+```js
+import { MapWidget } from 'qm-vmap';
+import type {  LngLatLike } from 'mapbox-gl';
+
+
+
+const mapOptions = {
+  id: 'map',
+  center: [115.434038, 33.347523] as LngLatLike,
+  container: '',
+  zoom: 11,
+  maxZoom: 18,
+  pitch: 45,
+};
+
+const basemap: TLayerGroupOptions = {
+  id: 'base_map',
+  name: '基础底图',
+  type: 'logicGroup',
+  layers: [
+    {
+      id: 'tdt_img',
+      name: '天地图-影像',
+      type: 'raster',
+      isAdd: true,
+      source: {
+        type: 'raster',
+        tileSize: 256,
+        tiles: [
+          `http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianditukey}`,
+        ],
+      },
+    }]}
+
+const mapSetting:TMapLayerSettting=[basemap]
+
+ const mapLoadHandle: any = (map: MapWrapper) => {}// mapbox中load事件的回调
+  
+  <MapWidget :map-options="mapOptions" :map-layer-setting="mapSetting">
+      <PopupPanel :vector="vector" />
+      <ControlPanel />
+      <ToolPanel />
+    </MapWidget>
+
 ```
 
-### Type-Check, Compile and Minify for Production
+## 工具条使用-作为MapWidget-children
 
-```sh
-npm run build
+```js
+ <Legend :position="{ bottom: 10, left: 10 }"></Legend>
+  <LayerList :position="{ top: 10, left: 10 }"></LayerList>
+  <Swipe :position="{ top: 225, right: 10 }"></Swipe>
+  <Measure :position="{ top: 305, right: 10 }"></Measure>
 ```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
-
-# 项目结构
-
-```shell
-├─index.html           index.html 单页面入口，提供id为app的挂载点
-└─src
-│   ├─assets           静态文件
-│   │  └─images
-│   ├─components       组件
-│   ├─gis              地图相关工具箱
-│   ├─views           页面
-│   │  ├─themeMap            案例2
-│   │  └─login           登录页面
-│   ├─routers          项目路由
-│   ├─App.vue          根组件SFC单文件组件
-│   ├─main.ts          入口文件，createApp函数创建应用实例
-├─ .env              环境变量定义文件
-├─ tsconfig.json     ts 配置文件
-├─ .eslintrc.yml     eslint 配置文件
-├─ .prettierrc.json  prettier 配置文件
-├─ .gitignore        git 忽略配置
-├─ .package.json     项目包文件
-├─ .vite.config.ts    项目的配置文件，基于vite的配置
-```
-
