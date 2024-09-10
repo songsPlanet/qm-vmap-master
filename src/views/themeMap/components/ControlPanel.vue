@@ -2,7 +2,6 @@
 import InitialLocation from '@/gis/widget/InitialLocation/index.vue'
 import { FullscreenControl, NavigationControl } from 'mapbox-gl'
 import LayerList from '@/gis/widget/LayerList/index.vue'
-import { MapboxExportControl } from '@/gis/widget/Print'
 import Measure from '@/gis/widget/Measure/index.vue'
 import Legend from '@/gis/widget/Legend/index.vue'
 import { useMapStore } from '@/store/useMapStore'
@@ -14,18 +13,15 @@ const { map } = useMapStore()
 
 const navCtrl = new NavigationControl()
 const fullCtrl = new FullscreenControl()
-const exportCtrl = new MapboxExportControl()
 
 onMounted(() => {
   map?.addControl(navCtrl, 'top-right')
   map?.addControl(fullCtrl, 'top-right')
-  map?.addControl(exportCtrl, 'top-right')
 })
 
 onUnmounted(() => {
   map?.removeControl(navCtrl, 'top-right')
   map?.removeControl(fullCtrl, 'top-right')
-  map?.removeControl(exportCtrl, 'top-right')
 })
 </script>
 

@@ -43,10 +43,14 @@ class MapWrapper extends Map {
    *  data:"base64字符串"
    * }[]
    */
-  private _images: { id: string; data: string }[] = []
+  private _images: { id: string; url: string }[] = []
 
   public get images() {
     return this._images
+  }
+
+  public set images(value) {
+    this._images = value
   }
 
   // 绘制工具
@@ -77,12 +81,23 @@ class MapWrapper extends Map {
    * 返回初始地图位置
    */
   zoomHome() {
-    const center = this._options.center
-    const zoom = this._options.zoom
-    this.flyTo({
-      duration: 2000,
-      center,
-      zoom
+    const center: any = this._options.center
+    const zoom: any = this._options.zoom
+    this.setCenter(center)
+    this.setZoom(zoom)
+  }
+
+  load(mapLayerSetting: TMapLayerSetting) {
+    this._mapLayerSetting = mapLayerSetting
+    mapLayerSetting.forEach((layerOption) => {
+      let lyrWrapper
+      if ('layers' in layerOption) {
+        lyrWrapper = new LayerGroupWrapper(layerOption)
+      } else {
+        lyrWrapper = new LayerWrapper(layerOption)
+      }
+      this.addLayerWrapper(lyrWrapper)
+      this._layers.push(lyrWrapper)
     })
   }
 
@@ -138,20 +153,6 @@ class MapWrapper extends Map {
     })
   }
 
-  load(mapLayerSetting: TMapLayerSetting) {
-    this._mapLayerSetting = mapLayerSetting
-    mapLayerSetting.forEach((layerOption) => {
-      let lyrWrapper
-      if ('layers' in layerOption) {
-        lyrWrapper = new LayerGroupWrapper(layerOption)
-      } else {
-        lyrWrapper = new LayerWrapper(layerOption)
-      }
-      this.addLayerWrapper(lyrWrapper)
-      this._layers.push(lyrWrapper)
-    })
-  }
-
   /**
    * 高亮要素-面/线
    */
@@ -182,11 +183,12 @@ class MapWrapper extends Map {
    * 高亮要素-点
    */
   selectCircleFeature(
-    geo: GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry>
+    geo: GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry>,
+    id?: string
   ) {
-    this.clearSelect('circle')
-    const dsId = 'circle-location-ds'
-    const lyrId = 'circle-location-lyr'
+    id ? this.clearSelect(`${id}`) : this.clearSelect()
+    const dsId = id ? `${id}-location-ds` : 'location-ds'
+    const lyrId = id ? `${id}-location-lyr` : 'location-lyr'
     this.addSource(dsId, {
       type: 'geojson',
       data: geo
@@ -246,9 +248,97 @@ class MapWrapper extends Map {
     })
   }
 
+  /**
+   * 要素注记-图标
+   * @param geo：目标要素geometry{type：Point}
+   * @param id：唯一编码
+   * @param color ：可选颜色，默认玫红
+   * @param filter：可选过滤条件：如['concat','保单号:  ',['get', 'policyNo'],'\n','险种:  ',['get', 'seedCodeNames']]
+   */
+  selectSymbolIconFeature(
+    geo: GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry> | string,
+    id: string,
+    icon: string,
+    filter?: string | StyleFunction | Expression | undefined
+  ) {
+    this.clearSelect(`${id}`)
+    const dsId = `${id}-location-ds`
+    const lyrId = `${id}-location-lyr`
+    this.addSource(dsId, {
+      type: 'geojson',
+      data: geo
+    })
+    this.addLayer({
+      id: lyrId,
+      type: 'symbol',
+      minzoom: 0,
+      layout: {
+        'icon-image': icon,
+        'text-field': filter ? filter : '',
+        'text-font': ['Open Sans Regular'],
+        'text-allow-overlap': true,
+        'text-ignore-placement': true,
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true
+      },
+      paint: {
+        'text-color': '#fff',
+        'text-halo-width': 0.2,
+        'text-halo-color': 'white'
+      },
+      source: dsId
+    })
+  }
+
+  addDotIcon = (point: []) => {
+    this.clearSelectById('red-dot')
+    this.addSource('red-dot-ds', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [
+          {
+            properties: {},
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: point // icon position [lng, lat]
+            }
+          }
+        ]
+      }
+    })
+    this.addLayer({
+      id: 'red-dot-lyr',
+      type: 'symbol',
+      source: 'red-dot-ds',
+      layout: {
+        'icon-image': 'redAnimationImg',
+        'icon-size': 1,
+        'icon-rotation-alignment': 'map',
+        'icon-allow-overlap': true,
+        'icon-offset': [0, 0]
+      }
+    })
+  }
+
   clearSelect(id?: string) {
     const dsId = id ? `${id}-location-ds` : 'location-ds'
     const lyrId = id ? `${id}-location-lyr` : 'location-lyr'
+    const flag = this.getLayer(lyrId)
+    if (flag) {
+      this.removeLayer(lyrId)
+      this.removeSource(dsId)
+    }
+  }
+
+  /**
+   * 清理图层
+   * @param id：唯一编码
+   */
+  clearSelectById(id: string) {
+    const dsId = `${id}-ds`
+    const lyrId = `${id}-lyr`
     const flag = this.getLayer(lyrId)
     if (flag) {
       this.removeLayer(lyrId)
@@ -390,79 +480,6 @@ class MapWrapper extends Map {
       requestAnimationFrame(animateDashArray)
     }
     animateDashArray(0)
-  }
-
-  /**
-   * 创建Point的FeatureCollection
-   * lon：经度
-   * lat: 纬度
-   * @returns {{}}
-   */
-  createPointFeatureCollection = (lon: number, lat: number) => {
-    return {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [lon, lat]
-          }
-        }
-      ]
-    }
-  }
-
-  /**
-   *创建lineString的geojson 数据
-   * coordinates ：[[],[],...]
-   * @returns {{}}
-   */
-  createLineFeatureCollection = (coords: any) => {
-    return {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'LineString',
-            coordinates: coords
-          }
-        }
-      ]
-    }
-  }
-
-  /**
-   *创建Polygon的geojson 数据
-   * coords ：[[],[],...]
-   * @returns {{}}
-   */
-  createPolygonFeatureCollection = (coords: any) => {
-    return {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Polygon',
-            coordinates: [coords]
-          }
-        }
-      ]
-    }
-  }
-
-  /**
-   *通过turf.js创建Polygon的FeatureCollection数据(首尾不闭合也可成面)
-   * coords ：[[],[],...]
-   * @returns {{}}
-   */
-  createPolygonFeatureCollectionByLine = (lineCoords: any) => {
-    const lineFeats = lineString(lineCoords)
-    const polygons: any = lineStringToPolygon(lineFeats)
-    const collection: any = featureCollection(polygons)
-    return collection
   }
 }
 

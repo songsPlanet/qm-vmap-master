@@ -1,7 +1,8 @@
-import { Marker } from 'mapbox-gl';
-import MapWrapper from '../MapWrapper';
-import './index.css';
 import { lineString, length } from '@turf/turf';
+import MapWrapper from '../MapWrapper';
+import { Marker } from 'mapbox-gl';
+import './index.less';
+
 class PolylineMeasure {
   uuid: string;
   map: MapWrapper;
@@ -239,4 +240,4 @@ class PolylineMeasure {
   }
 }
 
-export { PolylineMeasure };
+export default  PolylineMeasure ;

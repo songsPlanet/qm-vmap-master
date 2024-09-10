@@ -7,6 +7,7 @@ import { debounce } from '@/gis/utils'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { cloneDeep } from 'lodash'
 import { useMapStore } from '@/store/useMapStore'
+import { getPulsingDot } from './pulsingDot'
 
 interface TMapProps {
   mapOptions: MapboxOptions & {
@@ -28,6 +29,9 @@ const mapStore = useMapStore()
 const loadLayers = (mapload: any) => {
   mapload.load(cloneDeep(props.mapLayerSetting))
   mapInit.value = true
+  // 添加动态点图标
+  const redAnimationImg = getPulsingDot(mapload)
+  mapload.addImage('redAnimationImg', redAnimationImg, { pixelRatio: 2 })
   emit('onMapLoad', mapload)
   mapStore.updata(mapload)
 }

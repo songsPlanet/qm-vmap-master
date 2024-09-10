@@ -8,6 +8,8 @@ const props = defineProps<TWidgetPosition>()
 const { map } = useMapStore()
 const onOpenHandle = () => {
   map?.zoomHome()
+  map?.clearSelect()
+    map?.clearSelectById('red-dot')
 }
 </script>
 
