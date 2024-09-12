@@ -1,18 +1,17 @@
 <script lang="ts" setup>
-import PopupPanel from '@/gis/widget/PopupPanel/index.vue'
-import FieldPopup from './components/Popup/FieldPopup.vue'
-import MapWidget from '@/gis/widget/MapWidget/index.vue'
+import PopupPanel from '@/gis/PopupPanel/index.vue'
+import FieldPopup from './components/popup/FieldPopup.vue'
+import MapWidget from '@/gis/MapWidget/index.vue'
 import ControlPanel from './components/ControlPanel.vue'
-import GeoPopup from './components/Popup/GeoPopup.vue'
+import GeoPopup from './components/popup/GeoPopup.vue'
 import { useRegionStore } from '@/store/useRegionStore'
 import { wh_sy_geo } from '../mapSetting/wh_sy_geo'
-import { mapOptions } from '@/gis/widget/constant'
+import { mapOptions } from '@/components/Map/constant'
 import ToolPanel from './components/ToolPanel.vue'
 import { field_vt } from '../mapSetting/field_vt'
 import { queryRegionList } from '@/api/map'
 import mapSetting from './mapSetting'
 import { onMounted } from 'vue'
-import './index.less'
 
 const vector = [
   { id: wh_sy_geo.id, title: wh_sy_geo.name, slotComponent: GeoPopup },
@@ -38,3 +37,11 @@ onMounted(() => {
     </MapWidget>
   </div>
 </template>
+
+<style lang="less" scoped>
+.mapContainer {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px);
+}
+</style>

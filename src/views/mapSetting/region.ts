@@ -1,4 +1,5 @@
-import type { TLayerGroupOptions, TLayerOptions } from '@/gis/mapboxgl/typings';
+// import type { TLayerGroupOptions, TLayerOptions } from '@/gis/mapboxgl/typings';
+import type { TLayerGroupOptions, TLayerOptions } from 'qm-map-wrapper'
 
 const regionConfig = [
   { name: '界首—镇级', lyr: 'xzqh_zhen', lbField: 'XZQMC', minzoom: 0, maxzoom: 12 },

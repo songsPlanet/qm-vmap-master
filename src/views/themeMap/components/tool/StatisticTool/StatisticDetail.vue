@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Space, Descriptions } from 'ant-design-vue'
 import { colorLib, pieLegendText } from '@/utils/chart.config'
-import { defineProps, onMounted, onUnmounted, ref, watch } from 'vue'
+import { Space, Descriptions } from 'ant-design-vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import type { TStatisticDetail } from './typing'
 import type { ECharts } from 'echarts'
 import * as echarts from 'echarts'

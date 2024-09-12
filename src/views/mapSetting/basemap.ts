@@ -1,4 +1,5 @@
-import { type TLayerGroupOptions } from '@/gis/mapboxgl/typings'
+// import { type TLayerGroupOptions } from '@/gis/mapboxgl/typings'
+import { type TLayerGroupOptions } from 'qm-map-wrapper'
 const tianditukey = '7271c460eedd19a02b7b7bb1b19ba7ac'
 
 export const basemap: TLayerGroupOptions = {

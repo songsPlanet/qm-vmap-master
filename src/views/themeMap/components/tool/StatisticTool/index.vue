@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
-import { ref, h } from 'vue'
-import { UserOutlined } from '@ant-design/icons-vue'
-import { Drawer } from 'ant-design-vue'
-import ToolWidget from '@/gis/widget/ToolWidget/index.vue'
+import type { TWidgetPosition } from '@/gis/BaseWidget/index.vue'
 import StatisticContent from './StatisticContent.vue'
+import { UserOutlined } from '@ant-design/icons-vue'
+import ToolWidget from '@/gis/ToolWidget/index.vue'
+import { Drawer } from 'ant-design-vue'
+import { ref, h } from 'vue'
 
 interface TPanelWidget {
   position: TWidgetPosition

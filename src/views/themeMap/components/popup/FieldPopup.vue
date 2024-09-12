@@ -1,6 +1,8 @@
 <script setup lang="ts">
+
 import { Descriptions } from 'ant-design-vue'
 import { ref } from 'vue'
+
 interface TWidgetOptions {
   data: any
 }

@@ -5,10 +5,9 @@ import { useRegionStore } from '@/store/useRegionStore'
 import { zwfbConfig } from '@/views/mapSetting/zwfb'
 import StatisticDetail from './StatisticDetail.vue'
 import type { TMapSpaceStatistic } from './typing'
-import { MapEvent } from '@/gis/mapboxgl/typings'
-import { useMapStore } from '@/store/useMapStore'
+import { MapEvent, GISToolHelper } from 'qm-map-wrapper'
+import { useMapStore } from '@/gis/store/useMapStore'
 import { queryStatisticResult } from '@/api/map'
-import { debounce } from '@/utils'
 
 const loading = ref(false)
 const layers = ref<any[]>([])
@@ -72,7 +71,7 @@ const getLyrState = () => {
   }
 }
 
-const mapLayerChangedHandle = debounce(() => {
+const mapLayerChangedHandle = GISToolHelper.debounce(() => {
   getLyrState()
 }, 200)
 

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { TWidgetPosition } from '@/gis/widget/BaseWidget/index.vue'
+import type { TWidgetPosition } from '@/gis/BaseWidget/index.vue'
 import { useRegionStore } from '@/store/useRegionStore'
-import { getFeatureBoundingBox } from '@/gis/utils'
-import { useMapStore } from '@/store/useMapStore'
+import { getFeatureBoundingBox } from '@/components/Map/utils'
+import { useMapStore } from '@/gis/store/useMapStore'
 import { queryRegionFeature } from '@/api/map'
 import { Cascader } from 'ant-design-vue'
 import { computed, ref } from 'vue'
-import './index.less'
 
 interface TRgionWidget {
   position: TWidgetPosition
@@ -65,3 +64,11 @@ const onChangeHandle = async (_: any, selectedOptions: any) => {
     ></Cascader>
   </div>
 </template>
+
+<style lang="less">
+.region-tool {
+  position: absolute;
+  width: 300px;
+  z-index: 1;
+}
+</style>

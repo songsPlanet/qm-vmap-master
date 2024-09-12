@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, type CSSProperties } from 'vue'
-import { getFeatureBoundingBox } from '@/gis/utils'
+import { GISToolHelper } from 'qm-map-wrapper'
 import { Map } from 'mapbox-gl'
 
 interface TGeoMap {
@@ -47,7 +47,7 @@ onMounted(() => {
       source: 'geoMap-ds'
     })
 
-    const bounds = getFeatureBoundingBox(props.data)
+    const bounds = GISToolHelper.getFeatureBoundingBox(props.data)
     const center = bounds.getCenter()
     map.setCenter(center)
     map.setZoom(16.5)

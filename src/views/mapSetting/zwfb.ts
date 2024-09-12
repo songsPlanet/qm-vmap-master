@@ -1,4 +1,5 @@
-import type { TLayerGroupOptions, TLayerOptions } from '@/gis/mapboxgl/typings'
+// import type { TLayerGroupOptions, TLayerOptions } from '@/gis/mapboxgl/typings'
+import type { TLayerGroupOptions, TLayerOptions } from 'qm-map-wrapper'
 import type { Expression } from 'mapbox-gl'
 
 const zwfbCondition: any[] = []

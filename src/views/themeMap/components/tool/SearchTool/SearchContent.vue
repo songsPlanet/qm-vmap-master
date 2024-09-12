@@ -2,10 +2,9 @@
 import { getXXNYZTUserListApi, getXxjyztListDetailApi, getSearchLayerListApi } from '@/api/map'
 import { Space, Select, Spin, Descriptions, List, Empty } from 'ant-design-vue'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { useMapStore } from '@/store/useMapStore'
-import { getFeatureBoundingBox } from '@/gis/utils'
+import { useMapStore } from '@/gis/store/useMapStore'
+import { GISToolHelper } from 'qm-map-wrapper'
 import GeoMap from './GeoMap.vue'
-import { debounce } from '@/utils'
 
 interface TField {
   fzr: string
@@ -42,7 +41,7 @@ const onSelectChange = (value: any) => {
   type.value = value
 }
 
-const getXXNYZTUserList: any = debounce((keyWord: string) => {
+const getXXNYZTUserList: any = GISToolHelper.debounce((keyWord: string) => {
   getXXNYZTUserListApi(keyWord || '').then((ctx: any) => {
     userList.value = ctx?.data || []
     userSearching.value = false
@@ -99,7 +98,7 @@ const handleChange = (id: any) => {
 
 const itemClickHandle = (data: any) => {
   map?.selectFeature(data)
-  const bounds = getFeatureBoundingBox(data)
+  const bounds = GISToolHelper.getFeatureBoundingBox(data)
   map?.fitBounds(bounds)
 }
 
