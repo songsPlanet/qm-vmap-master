@@ -6,6 +6,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { type MapboxOptions } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { cloneDeep } from 'lodash'
+import './index.less';
 
 interface TMapProps {
   mapOptions: MapboxOptions & {
@@ -75,6 +76,3 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style lang="less">
-@import './index.less';
-</style>

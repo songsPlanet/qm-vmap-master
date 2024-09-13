@@ -2,9 +2,9 @@
 import type { LayerGroupWrapper, LayerWrapper } from 'qm-map-wrapper'
 import type { TWidgetPosition } from '@/gis/BaseWidget/index.vue'
 import { MapEvent, GISToolHelper } from 'qm-map-wrapper'
-import BaseWidget from '@/gis/BaseWidget/index.vue'
 import { onMounted, ref, watch, onUnmounted } from 'vue'
 import { useMapStore } from '@/gis/store/useMapStore'
+import BaseWidget from '@/gis/BaseWidget/index.vue'
 import type { TreeProps } from 'ant-design-vue'
 
 type TLayerList = {
@@ -158,5 +158,3 @@ onUnmounted(() => {
     </a-tree>
   </BaseWidget>
 </template>
-
-<style lang="less" scoped></style>

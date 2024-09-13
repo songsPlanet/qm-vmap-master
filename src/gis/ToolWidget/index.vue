@@ -2,6 +2,7 @@
 import type { TWidgetPosition } from '@/gis/BaseWidget/index.vue'
 import { Button } from 'ant-design-vue'
 import { ref, computed } from 'vue'
+import './index.less'
 
 interface TPanelWidget {
   position: TWidgetPosition
@@ -41,10 +42,3 @@ const onClickHandle = () => {
     <slot v-if="open"></slot>
   </div>
 </template>
-
-<style lang="less" scoped>
-.btn {
-  position: absolute;
-  z-index: 1;
-}
-</style>

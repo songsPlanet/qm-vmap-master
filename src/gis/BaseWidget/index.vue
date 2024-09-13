@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import './index.less'
 
 export interface TWidgetPosition {
   top?: number
@@ -60,7 +61,3 @@ const onClickHandle = () => {
     <slot v-if="open"></slot>
   </div>
 </template>
-
-<style scoped lang="less">
-@import './index.less';
-</style>

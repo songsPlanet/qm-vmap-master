@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "noEmit": true,
+    "outDir": "dist",
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "strict": true,
     "allowJs": true,
     "checkJs": true,
-    "jsx": "preserve",
     "module": "ESNext",
     "target": "ESNext",
+    "jsx": "preserve",
     "alwaysStrict": true,
     "skipLibCheck": true,
     "noImplicitAny": true,
@@ -24,8 +26,8 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": [ "src/*" ]
+    },
   },
-  "include": ["src"],
+  "include": [ "src/gis", "src/vite-env.d.ts" ]
 }

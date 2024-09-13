@@ -8,6 +8,7 @@ import MapWidget from '@/gis/MapWidget/index.vue'
 import { MapWrapper } from 'qm-map-wrapper'
 import Compare from 'mapbox-gl-compare'
 import { ref, watch } from 'vue'
+import './index.less'
 
 type TSwipe = {
   position: TWidgetPosition
@@ -90,21 +91,3 @@ watch([beforeMap, afterMap], (value) => {
     </a-modal>
   </BaseWidget>
 </template>
-
-<style scoped lang="less">
-.mapboxgl-swipe {
-  width: 100%;
-  height: 600px;
-  display: flex;
-  position: relative;
-}
-.swipe-map-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-</style>
-
-<style scoped lang="css">
-@import 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.css';
-</style>
