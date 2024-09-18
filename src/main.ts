@@ -14,6 +14,7 @@ const pinia = createPinia()
 
 const icons: any = Icons
 
+// eslint-disable-next-line guard-for-in
 for (const i in icons) {
   app.component(i, icons[i] as any)
 }

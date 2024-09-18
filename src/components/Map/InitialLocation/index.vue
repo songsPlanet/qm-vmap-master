@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { TWidgetPosition } from '@/gis/BaseWidget/index.vue'
-import BaseWidget from '@/gis/BaseWidget/index.vue'
+import type { TWidgetPosition } from '@/gis/BaseWidget/BaseWidget.vue'
+import BaseWidget from '@/gis/BaseWidget/BaseWidget.vue'
 import { ControlIcons } from '@/components/Map/constant'
 import { useMapStore } from '@/gis/store/useMapStore'
 
@@ -16,8 +16,8 @@ const onOpenHandle = () => {
 <template>
   <BaseWidget
     name="初始位置"
+    isOpenHandle
     :position="props"
-    :isOpenHandle="true"
     :icon="ControlIcons.Initial"
     @openHandle="onOpenHandle"
   >

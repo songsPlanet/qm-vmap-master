@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Modal, Form, Row, Col, Input, FormItem, message, Select, Spin } from 'ant-design-vue';
-import { defineModel, onMounted, onUpdated, ref } from 'vue';
+import {  onMounted, onUpdated, ref } from 'vue';
 import MapContanier from './MapContanier.vue';
 import type MapWrapper from './mapWrapper';
 import { debounce } from '@/utils';

@@ -2,10 +2,10 @@
 import InitialLocation from '@/components/Map/InitialLocation/index.vue'
 import { FullscreenControl, NavigationControl } from 'mapbox-gl'
 import { useMapStore } from '@/gis/store/useMapStore'
-import LayerList from '@/gis/LayerList/index.vue'
-import Measure from '@/gis/Measure/index.vue'
-import Legend from '@/gis/Legend/index.vue'
-import Swipe from '@/gis/Swipe/index.vue'
+import LayerList from '@/gis/LayerList'
+import Measure from '@/gis/Measure'
+import Legend from '@/gis/Legend'
+import Swipe from '@/gis/Swipe'
 
 import { onMounted, onUnmounted } from 'vue'
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import PopupPanel from '@/gis/PopupPanel/index.vue'
+import PopupPanel from '@/gis/PopupPanel'
 import FieldPopup from './components/popup/FieldPopup.vue'
-import MapWidget from '@/gis/MapWidget/index.vue'
+import MapWidget from '@/gis/MapWidget/MapWidget.vue'
 import ControlPanel from './components/ControlPanel.vue'
 import GeoPopup from './components/popup/GeoPopup.vue'
 import { useRegionStore } from '@/store/useRegionStore'

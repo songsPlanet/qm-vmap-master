@@ -1,4 +1,3 @@
-/* eslint-env node */
 module.exports = {
   presets: [
     [
@@ -7,7 +6,7 @@ module.exports = {
         modules: 'commonjs',
         debug: false,
         useBuiltIns: 'usage',
-        corejs: { version: '3.33', proposals: true }
+        corejs: { version: '3.38', proposals: true }
       }
     ],
     '@babel/preset-typescript'
@@ -20,6 +19,7 @@ module.exports = {
     ['@babel/plugin-transform-runtime', { corejs: 3 }],
     ['@babel/plugin-proposal-class-properties', { loose: false }],
     [
+      // babel-plugin-import 对 ant-design-vue 库进行按需引入
       'babel-plugin-import',
       { libraryName: 'ant-design-vue', libraryDirectory: 'lib', style: false }
     ]

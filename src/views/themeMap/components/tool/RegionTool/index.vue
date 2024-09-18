@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TWidgetPosition } from '@/gis/BaseWidget/index.vue'
+import type { TWidgetPosition } from '@/gis/BaseWidget/BaseWidget.vue'
 import { useRegionStore } from '@/store/useRegionStore'
 import { getFeatureBoundingBox } from '@/components/Map/utils'
 import { useMapStore } from '@/gis/store/useMapStore'
@@ -55,8 +55,8 @@ const onChangeHandle = async (_: any, selectedOptions: any) => {
 <template>
   <div class="region-tool" :style="controlstyle">
     <Cascader
+    v-model:value="value"
       change-on-select
-      v-model:value="value"
       :options="useRegion.region"
       :allow-clear="false"
       :style="{ width: '100%' }"
