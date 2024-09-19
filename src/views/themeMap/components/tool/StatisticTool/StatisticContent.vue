@@ -24,7 +24,7 @@ const getChartData = () => {
   console.log('layers', layers.value)
 
   Promise.all(
-    layers.value.map((d: any) => {
+    layers.value.map(() => {
       // if (d === 'field_vt') {
       const query = { type: 1, regionCode: currentRegion!.value }
       return queryStatisticResult(query)
@@ -91,7 +91,6 @@ onUnmounted(() => {
       <a-tab-pane v-for="(items, index) in data" :key="index.toString()" :tab="items.name">
         <component :is="StatisticDetail" :data="items"> </component>
       </a-tab-pane>
-      <template> </template>
     </Tabs>
     <Empty v-else :style="{ width: '380px', marginTop: '60%' }"></Empty>
   </Spin>
@@ -99,7 +98,7 @@ onUnmounted(() => {
     v-else
     :style="{ width: '400px', marginTop: '60%' }"
     status="warning"
-    :title="'请您在 [ 图层控制 ] 功能中选中至少一个 [ 地块 ] 图层'"
+    title='请您在 [ 图层控制 ] 功能中选中至少一个 [ 地块 ] 图层'
   >
   </Result>
 </template>

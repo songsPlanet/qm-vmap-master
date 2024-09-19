@@ -36,7 +36,7 @@ const props = defineProps<TMapModalOptions>();
 const emits = defineEmits<TMapInfoModalEmits>();
 const mapFormState = defineModel<TVillagePointType>('value', { required: true, default: {} });
 
-const mapR = ref();
+const mapR = ref<MapWrapper>();
 const loading = ref(false);
 const formRef = ref();
 const currentRegion = ref<TCrrentRegion>();

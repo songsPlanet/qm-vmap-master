@@ -1,7 +1,7 @@
 {
   "name": "qm-vmap",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "type": "module",
   "main": "./lib/index.js",
   "module": "./es/index.js",

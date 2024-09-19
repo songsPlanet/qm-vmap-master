@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import { Modal, Form, Row, Col, Input, FormItem, message, Select, Spin } from 'ant-design-vue';
-import type { MapWrapper , TMapLayerSetting, TMapOptions} from 'qm-map-wrapper';
+import type { MapWrapper, TMapLayerSetting, TMapOptions } from 'qm-map-wrapper';
 import MapWidget from '../MapWidget/MapWidget.vue';
 import { GISToolHelper } from 'qm-map-wrapper';
-import { onUpdated, ref } from 'vue';
+import { computed, onUpdated, ref } from 'vue';
+import { basemap } from './basemap';
 import axios from 'axios';
 
 type TMapModalOptions = {
   open: boolean;
   tdtkey: string;
   mapOptions: TMapOptions;
-  mapSetting: TMapLayerSetting;
+  mapSettingInfo?: TMapLayerSetting;
   image?: {
     url: string;
     id: string;
   };
   region?: {
     bounds: number[];
-    code?: number;
+    code: number;
   };
 };
 
@@ -47,6 +48,10 @@ const loading = ref(false);
 const formRef = ref();
 const searchResultPois = ref<TsearchResultPois[]>([]);
 
+const mapSetting = computed(() => {
+  return props.mapSettingInfo ? props.mapSettingInfo : [basemap];
+});
+
 function handleOk() {
   formRef.value
     .validate()
@@ -72,13 +77,13 @@ const fetchSearchDataByKeyWord = async () => {
   try {
     // 先写死后期根据行政区计算
     const params = {
-      keyWord: mapFormState.value.location,
-      mapBound: props.region?.bounds.join(','),
+      keyWord: mapFormState.value.location,// 关键字
+      mapBound: props.region?.bounds.join(',')|| '-180,-90,180,90',
       level: 18,
       queryType: 1, // 1-普通搜索，7-地名搜索
       start: 0,
       count: 10,
-      specify: props.region?.code,
+      specify: props.region?.code|| undefined,
     };
     const url = `http://api.tianditu.gov.cn/v2/search?type=query&postStr=${JSON.stringify(params)}&tk=${props.tdtkey}`;
     const searchData = await axios.get(url);
@@ -120,8 +125,18 @@ const handleChange = (value: any) => {
     latitude: lonlatStr[1],
   };
   Object.assign(mapFormState.value, resObject);
-  mapR.value?.locationHanlde(lonlatArray);
-  mapR.value?.addLocationIcon(lonlatArray);
+  addLocationLayer(lonlatArray)
+};
+
+const addLocationLayer = (lonlat: any) => {
+  mapR.value?.setCenter(lonlat);
+  mapR.value?.setZoom(15);
+  const geo: any = GISToolHelper.createPointFeatureCollection(lonlat, {});
+  if (props.image) {
+    mapR.value?.selectSymbolIconFeature(geo, 'queryGeoIcon', props.image);
+  } else {
+    mapR.value?.selectCircleFeature(geo, 'queryGeoIcon');
+  }
 };
 
 const fetchSearchDataByLonLat = async (point: { lng: number; lat: number }) => {
@@ -135,14 +150,15 @@ const fetchSearchDataByLonLat = async (point: { lng: number; lat: number }) => {
     const searchData = await axios.get(url);
     if (searchData.data) loading.value = false;
 
-    const { lon, lat } = searchData.data.result.location;
+    const { lon: longitude, lat: latitude } = searchData.data.result.location;
+    const location = searchData.data.result['formatted_address'];
     const resObject: MapLocation = {
-      location: searchData.data.result['formatted_address'],
-      longitude: lon,
-      latitude: lat,
+      location,
+      longitude,
+      latitude,
     };
     mapFormState.value = Object.assign(mapFormState.value, resObject);
-    mapR.value?.addLocationIcon([lon, lat]);
+    addLocationLayer([longitude, latitude]);
   } catch (error) {
     console.error('请求失败:', error);
   }
@@ -150,6 +166,7 @@ const fetchSearchDataByLonLat = async (point: { lng: number; lat: number }) => {
 
 const mapLoadHandle = (map: MapWrapper) => {
   mapR.value = map;
+  map.images.push(props.image!);
   map.on('click', (e: any) => {
     loading.value = true;
     fetchSearchDataByLonLat(e.lngLat);
@@ -159,11 +176,10 @@ const mapLoadHandle = (map: MapWrapper) => {
 onUpdated(() => {
   const { latitude, longitude } = mapFormState.value;
   if (latitude && longitude) {
-    mapR.value?.addLocationIcon([longitude, latitude]);
-    mapR.value?.locationHanlde([longitude, latitude]);
+    addLocationLayer([longitude, latitude]);
   } else {
     mapR.value?.zoomHome();
-    mapR.value?.clearSelect();
+    mapR.value?.clearSelect(`queryGeoIcon`);
   }
 });
 </script>
@@ -228,7 +244,9 @@ onUpdated(() => {
       </Row>
       <Row>
         <Col :offset="1" :span="23">
-          <MapWidget :map-options="mapOptions" :map-layer-setting="mapSetting" @on-map-load="mapLoadHandle" />
+          <div :style="{ height: '400px', width: '100%' }">
+            <MapWidget :map-options="mapOptions" :map-layer-setting="mapSetting" @on-map-load="mapLoadHandle" />
+          </div>
         </Col>
       </Row>
     </Form>

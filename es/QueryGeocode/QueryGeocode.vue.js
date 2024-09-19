@@ -1,17 +1,19 @@
-import { defineComponent, mergeModels, useModel, ref, onUpdated, openBlock, createBlock, unref, withCtx, createVNode, createElementVNode } from 'vue';
+import { defineComponent, mergeModels, useModel, ref, computed, onUpdated, openBlock, createBlock, unref, withCtx, createVNode, createElementVNode } from 'vue';
 import { Modal, Form, Row, Col, FormItem, Spin, Select, Input, message } from 'ant-design-vue';
 import '../MapWidget/MapWidget.vue2.js';
 import { GISToolHelper } from 'qm-map-wrapper';
+import { basemap } from './basemap.js';
 import axios from 'axios';
 import script$1 from '../MapWidget/MapWidget.vue.js';
 
+const _hoisted_1 = { style: { height: '400px', width: '100%' } };
 var script = /*@__PURE__*/ defineComponent({
     __name: 'QueryGeocode',
     props: /*@__PURE__*/ mergeModels({
         open: { type: Boolean, required: true },
         tdtkey: { type: String, required: true },
         mapOptions: { type: null, required: true },
-        mapSetting: { type: null, required: true },
+        mapSettingInfo: { type: null, required: false },
         image: { type: Object, required: false },
         region: { type: Object, required: false }
     }, {
@@ -27,6 +29,9 @@ var script = /*@__PURE__*/ defineComponent({
         const loading = ref(false);
         const formRef = ref();
         const searchResultPois = ref([]);
+        const mapSetting = computed(() => {
+            return props.mapSettingInfo ? props.mapSettingInfo : [basemap];
+        });
         function handleOk() {
             formRef.value
                 .validate()
@@ -50,13 +55,13 @@ var script = /*@__PURE__*/ defineComponent({
             try {
                 // 先写死后期根据行政区计算
                 const params = {
-                    keyWord: mapFormState.value.location,
-                    mapBound: props.region?.bounds.join(','),
+                    keyWord: mapFormState.value.location, // 关键字
+                    mapBound: props.region?.bounds.join(',') || '-180,-90,180,90',
                     level: 18,
                     queryType: 1, // 1-普通搜索，7-地名搜索
                     start: 0,
                     count: 10,
-                    specify: props.region?.code,
+                    specify: props.region?.code || undefined,
                 };
                 const url = `http://api.tianditu.gov.cn/v2/search?type=query&postStr=${JSON.stringify(params)}&tk=${props.tdtkey}`;
                 const searchData = await axios.get(url);
@@ -99,8 +104,18 @@ var script = /*@__PURE__*/ defineComponent({
                 latitude: lonlatStr[1],
             };
             Object.assign(mapFormState.value, resObject);
-            mapR.value?.locationHanlde(lonlatArray);
-            mapR.value?.addLocationIcon(lonlatArray);
+            addLocationLayer(lonlatArray);
+        };
+        const addLocationLayer = (lonlat) => {
+            mapR.value?.setCenter(lonlat);
+            mapR.value?.setZoom(15);
+            const geo = GISToolHelper.createPointFeatureCollection(lonlat, {});
+            if (props.image) {
+                mapR.value?.selectSymbolIconFeature(geo, 'queryGeoIcon', props.image);
+            }
+            else {
+                mapR.value?.selectCircleFeature(geo, 'queryGeoIcon');
+            }
         };
         const fetchSearchDataByLonLat = async (point) => {
             try {
@@ -113,14 +128,15 @@ var script = /*@__PURE__*/ defineComponent({
                 const searchData = await axios.get(url);
                 if (searchData.data)
                     loading.value = false;
-                const { lon, lat } = searchData.data.result.location;
+                const { lon: longitude, lat: latitude } = searchData.data.result.location;
+                const location = searchData.data.result['formatted_address'];
                 const resObject = {
-                    location: searchData.data.result['formatted_address'],
-                    longitude: lon,
-                    latitude: lat,
+                    location,
+                    longitude,
+                    latitude,
                 };
                 mapFormState.value = Object.assign(mapFormState.value, resObject);
-                mapR.value?.addLocationIcon([lon, lat]);
+                addLocationLayer([longitude, latitude]);
             }
             catch (error) {
                 console.error('请求失败:', error);
@@ -128,6 +144,7 @@ var script = /*@__PURE__*/ defineComponent({
         };
         const mapLoadHandle = (map) => {
             mapR.value = map;
+            map.images.push(props.image);
             map.on('click', (e) => {
                 loading.value = true;
                 fetchSearchDataByLonLat(e.lngLat);
@@ -136,12 +153,11 @@ var script = /*@__PURE__*/ defineComponent({
         onUpdated(() => {
             const { latitude, longitude } = mapFormState.value;
             if (latitude && longitude) {
-                mapR.value?.addLocationIcon([longitude, latitude]);
-                mapR.value?.locationHanlde([longitude, latitude]);
+                addLocationLayer([longitude, latitude]);
             }
             else {
                 mapR.value?.zoomHome();
-                mapR.value?.clearSelect();
+                mapR.value?.clearSelect(`queryGeoIcon`);
             }
         });
         return (_ctx, _cache) => {
@@ -285,11 +301,13 @@ var script = /*@__PURE__*/ defineComponent({
                                         span: 23
                                     }, {
                                         default: withCtx(() => [
-                                            createVNode(script$1, {
-                                                "map-options": _ctx.mapOptions,
-                                                "map-layer-setting": _ctx.mapSetting,
-                                                onOnMapLoad: mapLoadHandle
-                                            }, null, 8 /* PROPS */, ["map-options", "map-layer-setting"])
+                                            createElementVNode("div", _hoisted_1, [
+                                                createVNode(script$1, {
+                                                    "map-options": _ctx.mapOptions,
+                                                    "map-layer-setting": mapSetting.value,
+                                                    onOnMapLoad: mapLoadHandle
+                                                }, null, 8 /* PROPS */, ["map-options", "map-layer-setting"])
+                                            ])
                                         ]),
                                         _: 1 /* STABLE */
                                     })

@@ -3,14 +3,14 @@ type TMapModalOptions = {
     open: boolean;
     tdtkey: string;
     mapOptions: TMapOptions;
-    mapSetting: TMapLayerSetting;
+    mapSettingInfo?: TMapLayerSetting;
     image?: {
         url: string;
         id: string;
     };
     region?: {
         bounds: number[];
-        code?: number;
+        code: number;
     };
 };
 export type MapLocation = {
