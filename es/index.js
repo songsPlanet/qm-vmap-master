@@ -2,6 +2,7 @@ export { useMapStore } from './store/useMapStore';
 export { basemap } from './QueryGeocode/basemap';
 export { default as PopupWrapper } from './PopupWrapper';
 export { default as QueryGeocode } from './QueryGeocode';
+export { default as DrawWidget } from './DrawWidget';
 export { default as BaseWidget } from './BaseWidget';
 export { default as PopupPanel } from './PopupPanel';
 export { default as ToolWidget } from './ToolWidget';

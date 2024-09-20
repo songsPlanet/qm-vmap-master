@@ -3,7 +3,7 @@ import { MapWrapper, GISToolHelper, getPulsingDot } from 'qm-map-wrapper';
 import { useMapStore } from '../store/useMapStore.js';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { cloneDeep } from 'lodash';
-import './MapWidget.less';
+import './MapWidget.css';
 
 var script = /*@__PURE__*/ defineComponent({
     __name: 'MapWidget',

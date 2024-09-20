@@ -5,7 +5,7 @@ import { useMapStore } from '../store/useMapStore.js';
 import '../LayerList/LayerList.vue2.js';
 import '../MapWidget/MapWidget.vue2.js';
 import Compare from 'mapbox-gl-compare';
-import './Swipe.less';
+import './Swipe.css';
 import script$1 from '../BaseWidget/BaseWidget.vue.js';
 import script$2 from '../MapWidget/MapWidget.vue.js';
 import script$3 from '../LayerList/LayerList.vue.js';

@@ -1,7 +1,7 @@
 import { defineComponent, ref, watch, onMounted, onUnmounted, openBlock, createElementBlock, createElementVNode, toDisplayString, renderSlot } from 'vue';
 import { useMapStore } from '../store/useMapStore.js';
 import { Popup } from 'mapbox-gl';
-import './PopupWrapper.less';
+import './PopupWrapper.css';
 
 const _hoisted_1 = { class: "popup-header-wrap" };
 const _hoisted_2 = {

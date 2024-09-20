@@ -1,6 +1,5 @@
 import { Map as IMap, is } from 'immutable'
 import { LngLatBounds } from 'mapbox-gl'
-import moment from 'moment'
 /**
  * 浅比较
  * @param obj1
@@ -38,13 +37,6 @@ const deepEqual = (obj1: Object, obj2: Object): boolean => {
   const map1 = IMap(obj1)
   const map2 = IMap(obj2)
   return is(map1, map2)
-}
-/**
- * 生成UUID
- * @returns
- */
-const generateUUID = () => {
-  return 'FY' + moment().format('YYYYMMDDHHmmSSSS')
 }
 
 /**
@@ -188,7 +180,6 @@ export {
   decimalToDms,
   dmsToDecimal,
   shollawEqual,
-  generateUUID,
   transTreeToArr,
   convertHexToRGB,
   getFeatureBoundingBox

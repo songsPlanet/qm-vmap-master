@@ -3,7 +3,7 @@ import { GISToolHelper, MapEvent } from 'qm-map-wrapper';
 import '../BaseWidget/BaseWidget.vue2.js';
 import { useMapStore } from '../store/useMapStore.js';
 import './singleLegend.vue.js';
-import './Legend.less';
+import './Legend.css';
 import script$1 from '../BaseWidget/BaseWidget.vue.js';
 import script$2 from './singleLegend.vue2.js';
 

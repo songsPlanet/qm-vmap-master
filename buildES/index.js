@@ -40,9 +40,9 @@ const inputOptions = {
     // 将所有的被 js 引入的图片资源全部打包成 base64
     imageToBase64(),
     // 将文件中的所有引入 '.less' 全部转换成 '.css'
-    // less2css(),
+    less2css(),
     // 将文件中引入的 @ant-design/icons-vue 进行拆分
-    // importAntDesignIconsVue(),
+    importAntDesignIconsVue(),
   ],
 };
 

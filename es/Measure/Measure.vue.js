@@ -3,7 +3,7 @@ import { PolylineMeasure, PolygonMeasure } from 'qm-map-wrapper';
 import '../BaseWidget/BaseWidget.vue2.js';
 import { useMapStore } from '../store/useMapStore.js';
 import { Space, Button } from 'ant-design-vue';
-import './Measure.less';
+import './Measure.css';
 import script$1 from '../BaseWidget/BaseWidget.vue.js';
 
 const _hoisted_1 = { class: "main" };

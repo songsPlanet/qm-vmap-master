@@ -1,5 +1,5 @@
 import { defineComponent, openBlock, createElementBlock, Fragment, renderList, normalizeStyle, createElementVNode, toDisplayString } from 'vue';
-import './Legend.less';
+import './Legend.css';
 
 const _hoisted_1 = ["src"];
 const _hoisted_2 = { class: "mapboxgl-legend-item-text" };

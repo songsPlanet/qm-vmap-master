@@ -1,6 +1,6 @@
 import { defineComponent, ref, computed, openBlock, createElementBlock, createVNode, unref, normalizeStyle, withCtx, createTextVNode, toDisplayString, renderSlot, createCommentVNode } from 'vue';
 import { Button } from 'ant-design-vue';
-import './ToolWidget.less';
+import './ToolWidget.css';
 
 var script = /*@__PURE__*/ defineComponent({
     __name: 'ToolWidget',

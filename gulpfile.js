@@ -30,25 +30,6 @@ function buildCJS() {
     .pipe(gulp.dest('./lib'));
 }
 
-function buildStyle() {
-  // 先读取 src/library 目录下的所有 less 文件，然后对 less 文件进行编译，编译后会转成 css 文件保存在内存中。
-  return (
-    gulp
-      .src('./src/gis/**/*.less')
-      .pipe(less())
-      // 紧接着继续读取 src/gis 目录下的所有 css 文件
-      // .pipe(gulp.src('./src/gis/**/*.css'))
-      // 然后将以上步骤中所有的 css 文件都交由 postcss 进行处理
-      // 如果项目根目录下已经存在 postcss.config.cjs 文件，这里可以不用配置 options
-      .pipe(postcss())
-      // 最后是将 css 文件中所有依赖的静态资源全部打包成 base64 内嵌在 css 文件中
-      .pipe(base64())
-      // 写入到 es 目录下
-      .pipe(gulp.dest('./es'))
-      // 写入到 lib 目录下
-      .pipe(gulp.dest('./lib'))
-  );
-}
 const buildDTS = gulp.series(
   // eslint-disable-next-line prefer-arrow-callback
   function () {
@@ -79,4 +60,24 @@ const buildDTS = gulp.series(
   },
 );
 
-export default gulp.series(cleanDir, buildES, rewriteBuildES, buildCJS, buildStyle, buildDTS);
+function buildStyle() {
+  // 先读取 src/library 目录下的所有 less 文件，然后对 less 文件进行编译，编译后会转成 css 文件保存在内存中。
+  return (
+    gulp
+      .src('./src/gis/**/*.less')
+      .pipe(less())
+      // 紧接着继续读取 src/gis 目录下的所有 css 文件
+      // .pipe(gulp.src('./src/gis/**/*.css'))
+      // 然后将以上步骤中所有的 css 文件都交由 postcss 进行处理
+      // 如果项目根目录下已经存在 postcss.config.cjs 文件，这里可以不用配置 options
+      .pipe(postcss())
+      // 最后是将 css 文件中所有依赖的静态资源全部打包成 base64 内嵌在 css 文件中
+      .pipe(base64())
+      // 写入到 es 目录下
+      .pipe(gulp.dest('./es'))
+      // 写入到 lib 目录下
+      .pipe(gulp.dest('./lib'))
+  );
+}
+
+export default gulp.series(cleanDir, buildES, rewriteBuildES, buildCJS, buildDTS, buildStyle);

@@ -1,5 +1,5 @@
 import { defineComponent, ref, computed, openBlock, createElementBlock, normalizeStyle, createElementVNode, toDisplayString, createCommentVNode, renderSlot } from 'vue';
-import './BaseWidget.less';
+import './BaseWidget.css';
 
 const _hoisted_1 = { class: "mapboxgl-bar" };
 const _hoisted_2 = ["title"];

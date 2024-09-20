@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import InitialLocation from '@/components/Map/InitialLocation/index.vue'
 import { FullscreenControl, NavigationControl } from 'mapbox-gl'
+import DrawWidget from '@/gis/DrawWidget/DrawWidget.vue'
 import { useMapStore } from '@/gis/store/useMapStore'
 import LayerList from '@/gis/LayerList'
 import Measure from '@/gis/Measure'
@@ -30,5 +31,6 @@ onUnmounted(() => {
   <LayerList :position="{ top: 10, left: 10 }"></LayerList>
   <Measure :position="{ top: 305, right: 10 }"></Measure>
   <Swipe :position="{ top: 225, right: 10 }"></Swipe>
+  <DrawWidget :position="{ bottom: 10, right: 10 }"/>
   <InitialLocation :position="{ top: 185, right: 10 }"></InitialLocation>
 </template>
